@@ -1,12 +1,4 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
-
-import React from 'react';
+import React, { useMemo, useState, useEffect } from 'react'
 import {
   SafeAreaView,
   StyleSheet,
@@ -18,104 +10,50 @@ import {
   Platform,
   Image,
   FlatList,
-} from 'react-native';
+} from 'react-native'
 
-import {Colors} from 'react-native/Libraries/NewAppScreen';
+// import { APP_SIZE } from './src/configs/constants'
+import { Provider, useSelector, useDispatch } from 'react-redux'
+import storeConfig from './src/configs/reduxConfig'
+import i18n from './src/i18n/i18n'
+import AsyncStorage from '@react-native-community/async-storage'
+import { RootNav } from './src/configs/appNavigation'
+import { changeLocale } from './src/actions/languageAction'
+import { LANGUAGE_CHANGE_LOCALE } from './src/actions/actionTypes'
 
-import {walnimal} from './walnimal';
+const LocaleProvider = (props) => {
+  const loadLocale = async () => {
+    let locale = await AsyncStorage.getItem(FILE_LOCALE)
+    locale = locale || 'vi'
+    i18n.locale = locale
+    props.selectLanguage(locale)
+  }
 
-let arr = walnimal.map((item, idx) => ({...item, id: idx}));
-const App = () => {
-  const width = APP_SIZE.widthScreen / 2;
-  const height = width * 1.25;
+  const locale = useSelector(state => state.appConfig.locale)
+  const dispatch = useDispatch()
+  // const [locale, setLocale] = useState('vi')
+  useEffect(() => {
+    console.log('=====', props)
+    if (props && props.locale == locale) {
+      return
+    }
+    dispatch({ type: LANGUAGE_CHANGE_LOCALE, payload: locale })
+    i18n.locale = locale
+  }, [props])
+
   return (
-    <>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView style={{flex: 1}}>
-        <FlatList
-          data={arr}
-          keyExtractor={item => item.img}
-          renderItem={({item, index}) => {
-            if (!(index % 2) && index != arr.length - 1) {
-              return (
-                <View
-                  style={{
-                    width: APP_SIZE.widthScreen,
-                    height,
-                    margin: 1,
-                    flexDirection: 'row',
-                  }}
-                  key={index}>
-                  <Image
-                    width={width}
-                    height={height}
-                    source={{uri: walnimal[index].img}}
-                    style={{margin: 1, width, height}}
-                    resizeMode="contain"
-                  />
-                  <Image
-                    width={width}
-                    height={height}
-                    source={{uri: walnimal[index + 1].img}}
-                    style={{margin: 1, width, height}}
-                  />
-                </View>
-              );
-            }
-          }}
-        />
-      </SafeAreaView>
-    </>
-  );
-};
+    <RootNav screenProps={{ locale }} />
+  )
+}
 
-const styles = StyleSheet.create({
-  scrollView: {
-    width: '100%',
-    backgroundColor: 'red',
-  },
-  engine: {
-    position: 'absolute',
-    right: 0,
-  },
-  body: {
-    backgroundColor: Colors.white,
-  },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-    color: Colors.dark,
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-  footer: {
-    color: Colors.dark,
-    fontSize: 12,
-    fontWeight: '600',
-    padding: 4,
-    paddingRight: 12,
-    textAlign: 'right',
-  },
-});
+const App = () => {
+  return (
+    <Provider store={storeConfig()}> 
+      <View style={{ flex: 1,}}>
+        <LocaleProvider />
+      </View>
+    </Provider>
+  )
+}
 
-export const APP_SIZE = {
-  widthWindow: Dimensions.get('window').width,
-  heightWindow: Dimensions.get('window').height,
-  widthScreen: Dimensions.get('screen').width,
-  heightScreen: Dimensions.get('window').height,
-  statusBarHeight: Platform.select({ios: 30, android: StatusBar.currentHeight}),
-  appBarHeight: Platform.select({ios: 44, android: 56}),
-};
-
-export default App;
+export default App
