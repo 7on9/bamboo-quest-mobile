@@ -1,15 +1,6 @@
 import React, { useMemo, useState, useEffect } from 'react'
 import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
   View,
-  Text,
-  StatusBar,
-  Dimensions,
-  Platform,
-  Image,
-  FlatList,
 } from 'react-native'
 
 // import { APP_SIZE } from './src/configs/constants'
@@ -29,11 +20,12 @@ const LocaleProvider = (props) => {
     props.selectLanguage(locale)
   }
 
+  const x = useSelector(state => state)
   const locale = useSelector(state => state.appConfig.locale)
   const dispatch = useDispatch()
   // const [locale, setLocale] = useState('vi')
   useEffect(() => {
-    console.log('=====', props)
+    console.log('=====', x)
     if (props && props.locale == locale) {
       return
     }

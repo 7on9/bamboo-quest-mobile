@@ -1,3 +1,6 @@
 export * from './home'
 export * from './setting'
+export * from './createQuest'
+export * from './play'
+export * from './profile'
 // export * from './splash'
