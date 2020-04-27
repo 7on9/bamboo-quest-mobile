@@ -1,13 +1,15 @@
 import React, { useMemo, useState, useEffect } from 'react'
-import { Easing, Animated, Platform, View, Text } from 'react-native'
+import { Easing, Animated, Platform, View, Text, Image } from 'react-native'
 // import { SideBar } from '../components'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import * as Screens from '../screens'
 import AsyncStorage from '@react-native-community/async-storage'
-import { FILE_USER_DATA } from './appConstants'
+import { FILE_USER_DATA, APP_SIZE } from './appConstants'
 import Icon from 'react-native-vector-icons/FontAwesome'
+import Images from '@assets/images'
+import Shadow from 'react-native-shadow-creator'
 // import * as ScreenNames from '../screens/screenNames'
 // import { APP_SIZE, APP_COLORS } from './appConstants'
 
@@ -28,16 +30,64 @@ const AppContainer = (props) => {
 
   return (
     <NavigationContainer>
-      <Tab.Navigator tabBarOptions={{
-          activeTintColor: 'tomato',
+      <Tab.Navigator
+        tabBarOptions={{
+          activeTintColor: '#17a51e',
           inactiveTintColor: 'gray',
-        }}
->
-        <Tab.Screen name="Home" component={HomeNav} options={{ tabBarIcon: () => (<View><Icon size={24} name="home"/></View>)}}/>
-        <Tab.Screen name="CreateQuest" component={CreateQuestNav} options={{ tabBarIcon: () => (<View><Icon size={24} name="plus-square-o"/></View>)}}/>
-        <Tab.Screen name="Play" component={PlayNav} />
-        <Tab.Screen name="Profile" component={ProfileNav} options={{ tabBarIcon: () => (<View><Icon size={24} name="user"/></View>)}}/>
-        <Tab.Screen name="Setting" component={SettingNav} options={{ tabBarIcon: () => (<View><Icon size={24} name="cog"/></View>)}}/>
+          style: {
+            height: APP_SIZE.heightScreen * 0.1,
+            ...Shadow(12)
+          }
+        }}>
+        <Tab.Screen
+          name="Home"
+          component={HomeNav}
+          options={{
+            tabBarIcon: ({ color, focused }) => (
+              <View>
+                <Icon size={focused ? 32 : 24} name="home" color={color} />
+              </View>
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="CreateQuest"
+          component={CreateQuestNav}
+          options={{
+            tabBarIcon: ({ focused, color }) => (
+              <View>
+                <Icon size={focused ? 32 : 24} name={focused ? "plus-square" : "plus-square-o"} color={color} />
+              </View>
+            ),
+          }}
+        />
+        <Tab.Screen name="Play" component={PlayNav} options={{ tabBarIcon: () => (
+          <View style={{ paddingLeft: 12, paddingBottom: 12, ...Shadow(12) }}>
+            <Image source={Images.fourSquare} style={{ height: 68, width: 68, alignSelf: 'center' }}/>
+          </View>
+        ) }} />
+        <Tab.Screen
+          name="Profile"
+          component={ProfileNav}
+          options={{
+            tabBarIcon: ({ color, focused }) => (
+              <View>
+                <Icon size={focused ? 32 : 24} name="user" color={color} />
+              </View>
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="Setting"
+          component={SettingNav}
+          options={{
+            tabBarIcon: ({ color, focused }) => (
+              <View>
+                <Icon size={focused ? 32 : 24} name="cog" color={color} />
+              </View>
+            ),
+          }}
+        />
       </Tab.Navigator>
     </NavigationContainer>
   )
@@ -46,7 +96,7 @@ const AppContainer = (props) => {
 const ProfileNav = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Profile" component={Screens.ProfileScreen}/>
+      <Stack.Screen name="Profile" component={Screens.ProfileScreen} />
       {/* <Stack.Screen name="SettingUser" component={SettingUserScreen}/> */}
     </Stack.Navigator>
   )
@@ -55,7 +105,7 @@ const ProfileNav = () => {
 const SettingNav = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Setting" component={Screens.SettingScreen}/>
+      <Stack.Screen name="Setting" component={Screens.SettingScreen} />
       {/* <Stack.Screen name="SettingUser" component={SettingUserScreen}/> */}
     </Stack.Navigator>
   )
@@ -64,7 +114,7 @@ const SettingNav = () => {
 const PlayNav = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Play" component={Screens.PlayScreen}/>
+      <Stack.Screen name="Play" component={Screens.PlayScreen} />
       {/* <Stack.Screen name="SettingUser" component={SettingUserScreen}/> */}
     </Stack.Navigator>
   )
@@ -73,7 +123,7 @@ const PlayNav = () => {
 const HomeNav = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Home" component={Screens.HomeScreen}/>
+      <Stack.Screen name="Home" component={Screens.HomeScreen} />
     </Stack.Navigator>
   )
 }
@@ -81,11 +131,14 @@ const HomeNav = () => {
 const CreateQuestNav = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="CreateQuest" component={Screens.CreateQuestScreen}/>
-      <Stack.Screen name="CreateQuestionScreen" component={Screens.CreateQuestionScreen}/>
+      <Stack.Screen name="CreateQuest" component={Screens.CreateQuestScreen} />
+      <Stack.Screen
+        name="CreateQuestionScreen"
+        component={Screens.CreateQuestionScreen}
+      />
     </Stack.Navigator>
   )
-} 
+}
 
 const NavConfig = () => {
   return {
@@ -95,7 +148,7 @@ const NavConfig = () => {
       timing: Animated.timing,
       useNativeDriver: true,
     },
-    screenInterpolator: screenProps => {
+    screenInterpolator: (screenProps) => {
       const position = screenProps.position
       const index = screenProps.scene.index
       const width = screenProps.layout.initWidth
