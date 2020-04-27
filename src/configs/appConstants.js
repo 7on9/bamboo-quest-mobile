@@ -7,39 +7,39 @@ import { Dimensions, Platform, StatusBar } from 'react-native'
 export const BASE_API_URL = 'http://172.104.181.210/api'
 // export const BASE_API_URL = 'http://10.198.41.109/api'
 
-export class UIConstants {
-  static AppbarHeight = Platform.OS === 'ios' ? 44 : 56
-  static StatusbarHeight = Platform.OS === 'ios' ? 20 : 0
-  static HeaderHeight = UIConstants.AppbarHeight + UIConstants.StatusbarHeight
-}
+const X_WIDTH = 375
+const X_HEIGHT = 812
+
+const XSMAX_WIDTH = 414
+const XSMAX_HEIGHT = 896
+
+export const isIPhoneX = () =>
+  Platform.OS === 'ios' && !Platform.isPad && !Platform.isTVOS
+    ? (Dimensions.get('window').width === X_WIDTH &&
+        Dimensions.get('window').height === X_HEIGHT) ||
+      (Dimensions.get('window').width === XSMAX_WIDTH &&
+        Dimensions.get('window').height === XSMAX_HEIGHT)
+    : false
 
 export const APP_SIZE = {
   widthWindow: Dimensions.get('window').width,
   heightWindow: Dimensions.get('window').height,
   widthScreen: Dimensions.get('screen').width,
-  heightScreen: Dimensions.get('window').height,
+  heightScreen: Dimensions.get('screen').height,
   statusBarHeight: Platform.select({
-    ios: 30,
+    ios: isIPhoneX() ? 44 : 20,
     android: StatusBar.currentHeight,
   }),
-  appBarHeight: Platform.select({ ios: 44, android: 56 }),
+  appBarHeight: Platform.OS === 'ios' ? 44 : 56,
 }
+
+export const avgSize = (APP_SIZE.widthWindow + APP_SIZE.widthWindow) / 2.0
 
 export const FILE_USER_TOKEN = 'BBQ_USER_TOKEN'
 export const FILE_USER_DATA = 'BBQ_USER_DATA'
 export const FILE_NOTIFICATION_TOKEN = 'FILE_NOTIFICATION_TOKEN'
 export const FILE_CONTACT_INFO = 'BBQ_CONTACT_INFO'
 export const FILE_LOCALE = 'BBQ_LOCALE'
-
-export const APP_COLORS = {
-  main: '#3cb54b',
-  text: {
-    header: '#37393A',
-    dark: '#454F63',
-    normal: '#78849E',
-  },
-  background: '#F7F7FA',
-}
 
 export const LOCALE_CALENDAR_VN = {
   monthNames: [

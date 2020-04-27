@@ -1,17 +1,17 @@
 import React, { useMemo, useState, useEffect } from 'react'
 import { Easing, Animated, Platform, View, Text, Image } from 'react-native'
-// import { SideBar } from '../components'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import * as Screens from '../screens'
 import AsyncStorage from '@react-native-community/async-storage'
-import { FILE_USER_DATA, APP_SIZE } from './appConstants'
+import { FILE_USER_DATA, APP_SIZE, isIPhoneX } from './appConstants'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import Images from '@assets/images'
 import Shadow from 'react-native-shadow-creator'
-// import * as ScreenNames from '../screens/screenNames'
-// import { APP_SIZE, APP_COLORS } from './appConstants'
+import { Header, AppText } from '../components'
+import { APP_COLORS } from './theme'
+
 const avgSize = (APP_SIZE.heightScreen + APP_SIZE.widthScreen) / 2.0
 
 const Tab = createBottomTabNavigator()
@@ -32,13 +32,22 @@ const AppContainer = (props) => {
   return (
     <NavigationContainer>
       <Tab.Navigator
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: '#f4511e',
+          },
+          headerTintColor: '#fff',
+        }}
         tabBarOptions={{
-          activeTintColor: '#17a51e',
+          activeTintColor: APP_COLORS.main,
           inactiveTintColor: 'gray',
+          adaptive: false,
+          keyboardHidesTabBar: true,
           style: {
             // height: APP_SIZE.heightScreen * 0.1,
-            ...Shadow(24),
-          }
+            backgroundColor: '#fff',
+            ...Shadow(12),
+          },
         }}>
         <Tab.Screen
           name="Home"
@@ -57,29 +66,38 @@ const AppContainer = (props) => {
           options={{
             tabBarIcon: ({ focused, color }) => (
               <View>
-                <Icon size={focused ? 32 : 24} name={focused ? "plus-square" : "plus-square-o"} color={color} />
+                <Icon
+                  size={focused ? 32 : 24}
+                  name={focused ? 'plus-square' : 'plus-square-o'}
+                  color={color}
+                />
               </View>
             ),
           }}
         />
-        <Tab.Screen 
-          name="Play" 
-          component={PlayNav} 
-          options={{ 
+        <Tab.Screen
+          name="Play"
+          component={PlayNav}
+          options={{
             tabBarIcon: ({ focused }) => (
-              <View style={{ 
-                marginBottom: avgSize * 0.05, 
-                ...Shadow(12), 
-                backgroundColor: '#fff', 
-                justifyContent: 'center' }}>
-                <Image 
-                  source={Images.square} 
-                  style={{ 
-                    height: avgSize * (focused ? 0.1 : 0.09), 
-                    width: avgSize * (focused ? 0.1 : 0.09), 
-                  }}/>
+              <View
+                style={{
+                  ...Shadow(16),
+                  marginBottom: avgSize * 0.065,
+                  backgroundColor: '#fff',
+                  justifyContent: 'center',
+                }}>
+                <Image
+                  source={Images.square}
+                  style={{
+                    height: avgSize * (focused ? 0.1 : 0.09),
+                    width: avgSize * (focused ? 0.1 : 0.09),
+                  }}
+                />
               </View>
-        ) }} />
+            ),
+          }}
+        />
         <Tab.Screen
           name="Profile"
           component={ProfileNav}
@@ -109,7 +127,7 @@ const AppContainer = (props) => {
 
 const ProfileNav = () => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Profile" component={Screens.ProfileScreen} />
       {/* <Stack.Screen name="SettingUser" component={SettingUserScreen}/> */}
     </Stack.Navigator>
@@ -136,7 +154,29 @@ const PlayNav = () => {
 
 const HomeNav = () => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+      screenOptions={{
+        header: (props) => (
+          <Header {...props} backgroundColor={APP_COLORS.main}>
+            <View
+              style={{
+                flex: 1,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+              <Text
+                style={{
+                  fontSize: 20,
+                  fontFamily: 'OpenSans-Bold',
+                  color: '#fff',
+                  marginTop: isIPhoneX() ? APP_SIZE.statusBarHeight : 0,
+                }}>
+                Bamboo Quest
+              </Text>
+            </View>
+          </Header>
+        ),
+      }}>
       <Stack.Screen name="Home" component={Screens.HomeScreen} />
     </Stack.Navigator>
   )
