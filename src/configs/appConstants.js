@@ -5,6 +5,7 @@ import { Dimensions, Platform, StatusBar } from 'react-native'
 
 // production
 export const BASE_API_URL = 'http://172.104.181.210/api'
+// export const BASE_API_URL = 'http://10.198.41.109/api'
 
 export class UIConstants {
   static AppbarHeight = Platform.OS === 'ios' ? 44 : 56

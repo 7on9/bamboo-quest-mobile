@@ -5,7 +5,7 @@ const _PlayScreen = () => {
   return (
     <View>
       <Text>
-        PlayScreen
+        PlayScreens
       </Text>
     </View>
   )

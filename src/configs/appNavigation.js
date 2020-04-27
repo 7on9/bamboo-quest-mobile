@@ -12,6 +12,7 @@ import Images from '@assets/images'
 import Shadow from 'react-native-shadow-creator'
 // import * as ScreenNames from '../screens/screenNames'
 // import { APP_SIZE, APP_COLORS } from './appConstants'
+const avgSize = (APP_SIZE.heightScreen + APP_SIZE.widthScreen) / 2.0
 
 const Tab = createBottomTabNavigator()
 const Stack = createStackNavigator()
@@ -35,8 +36,8 @@ const AppContainer = (props) => {
           activeTintColor: '#17a51e',
           inactiveTintColor: 'gray',
           style: {
-            height: APP_SIZE.heightScreen * 0.1,
-            ...Shadow(12)
+            // height: APP_SIZE.heightScreen * 0.1,
+            ...Shadow(24),
           }
         }}>
         <Tab.Screen
@@ -61,10 +62,23 @@ const AppContainer = (props) => {
             ),
           }}
         />
-        <Tab.Screen name="Play" component={PlayNav} options={{ tabBarIcon: () => (
-          <View style={{ paddingLeft: 12, paddingBottom: 12, ...Shadow(12) }}>
-            <Image source={Images.fourSquare} style={{ height: 68, width: 68, alignSelf: 'center' }}/>
-          </View>
+        <Tab.Screen 
+          name="Play" 
+          component={PlayNav} 
+          options={{ 
+            tabBarIcon: ({ focused }) => (
+              <View style={{ 
+                marginBottom: avgSize * 0.05, 
+                ...Shadow(12), 
+                backgroundColor: '#fff', 
+                justifyContent: 'center' }}>
+                <Image 
+                  source={Images.square} 
+                  style={{ 
+                    height: avgSize * (focused ? 0.1 : 0.09), 
+                    width: avgSize * (focused ? 0.1 : 0.09), 
+                  }}/>
+              </View>
         ) }} />
         <Tab.Screen
           name="Profile"

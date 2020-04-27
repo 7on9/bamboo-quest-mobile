@@ -1,5 +1,6 @@
 const Images = {
-  fourSquare: require('./four-squares.png')
+  square: require('./squares.png'),
+  squareNoFences: require('./squares-no-fences.png')
 }
 
 export default Images
