@@ -1,3 +1,22 @@
+import { StyleSheet } from "react-native"
+import { shadow } from "react-native-shadow-creator/shadow"
+
+export const styles = StyleSheet.create({
+  container: {
+    flex: 1
+  },
+  center: {
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  card: {
+    borderRadius: 12,
+    overflow: 'hidden',
+    backgroundColor: '#fff',
+    ...shadow(2)
+  },
+})
+
 export const APP_COLORS = {
   main: '#17a51e',
   red: '#d03542',

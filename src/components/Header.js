@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { View, Text, StatusBar, Platform } from 'react-native'
 import { APP_SIZE } from '../configs/appConstants'
 import { shadow } from 'react-native-shadow-creator/shadow'
@@ -6,10 +6,10 @@ import { APP_COLORS } from '../configs/theme'
 
 /**
  * Render app header
- * @param {{
-  backgroundColor: String,
-  barStyle: 'light-conten' | 'dark-content'
-}} props 
+ * @param { 
+    backgroundColor: String,
+    barStyle: 'light-conten' | 'dark-content'
+  } props
  */
 export const Header = (props) => {
   return (

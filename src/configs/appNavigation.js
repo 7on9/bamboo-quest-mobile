@@ -10,7 +10,7 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 import Images from '@assets/images'
 import Shadow from 'react-native-shadow-creator'
 import { Header, AppText } from '../components'
-import { APP_COLORS } from './theme'
+import { APP_COLORS, styles } from './theme'
 
 const avgSize = (APP_SIZE.heightScreen + APP_SIZE.widthScreen) / 2.0
 
@@ -159,11 +159,7 @@ const HomeNav = () => {
         header: (props) => (
           <Header {...props} backgroundColor={APP_COLORS.main}>
             <View
-              style={{
-                flex: 1,
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}>
+              style={[styles.center, styles.container]}>
               <Text
                 style={{
                   fontSize: 20,

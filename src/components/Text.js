@@ -8,3 +8,17 @@ export const AppText = props => {
     </Text>
   )
 }
+
+/**
+ * 
+ * @param {{
+    style: import('react-native').TextStyle
+ }} props 
+ */
+export const AppTextBold = props => {
+  return (
+    <Text {...props} style={{ fontFamily: 'OpenSans-Bold', ...props.style }}>
+      {props.children}
+    </Text>
+  )
+}
