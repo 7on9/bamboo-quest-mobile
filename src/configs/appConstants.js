@@ -1,10 +1,10 @@
 import { Dimensions, Platform, StatusBar } from 'react-native'
 
 // dev
-// export const BASE_API_URL = 'http://localhost:2409/api'
+export const BASE_API_URL = 'http://localhost:2409/api'
 
 // production
-export const BASE_API_URL = 'http://172.104.181.210/api'
+// export const BASE_API_URL = 'http://172.104.181.210/api'
 // export const BASE_API_URL = 'http://10.198.41.109/api'
 
 const X_WIDTH = 375
@@ -33,7 +33,8 @@ export const APP_SIZE = {
   appBarHeight: Platform.OS === 'ios' ? 44 : 56,
 }
 
-export const avgSize = (APP_SIZE.widthWindow + APP_SIZE.widthWindow) / 2.0
+export const avgSize = (APP_SIZE.widthWindow + APP_SIZE.heightWindow) / 2.0
+export const APP_RATIO = (APP_SIZE.heightWindow + APP_SIZE.heightWindow) / 100.0
 
 export const FILE_USER_TOKEN = 'BBQ_USER_TOKEN'
 export const FILE_USER_DATA = 'BBQ_USER_DATA'
