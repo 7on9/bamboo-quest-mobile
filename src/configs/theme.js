@@ -1,5 +1,14 @@
 import { StyleSheet } from "react-native"
 import { shadow } from "react-native-shadow-creator/shadow"
+import { APP_RATIO } from "./appConstants"
+
+export const appBorderRadius = APP_RATIO * 0.5
+
+export const APP_FONT_SIZES = {
+  small:  APP_RATIO,
+  normal:  APP_RATIO * 1.25,
+  header:  APP_RATIO * 1.5,
+}
 
 export const styles = StyleSheet.create({
   container: {
@@ -10,7 +19,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   card: {
-    borderRadius: 12,
+    borderRadius: APP_RATIO * 0.75,
     overflow: 'hidden',
     backgroundColor: '#fff',
     ...shadow(2)

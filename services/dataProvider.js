@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { AsyncStorage } from 'react-native'
+import AsyncStorage from '@react-native-community/async-storage'
 import { FILE_USER_TOKEN, BASE_API_URL } from '../src/configs/appConstants'
 
 /**

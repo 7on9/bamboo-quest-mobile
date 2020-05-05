@@ -1,25 +1,13 @@
 import { Dimensions, Platform, StatusBar } from 'react-native'
+import DeviceInfo from 'react-native-device-info'
 
 // dev
-export const BASE_API_URL = 'http://localhost:2409/api'
+// export const BASE_API_URL = 'http://localhost:2409/api'
+export const BASE_API_URL = 'http://192.168.0.105:2409/api'
 
 // production
 // export const BASE_API_URL = 'http://172.104.181.210/api'
 // export const BASE_API_URL = 'http://10.198.41.109/api'
-
-const X_WIDTH = 375
-const X_HEIGHT = 812
-
-const XSMAX_WIDTH = 414
-const XSMAX_HEIGHT = 896
-
-export const isIPhoneX = () =>
-  Platform.OS === 'ios' && !Platform.isPad && !Platform.isTVOS
-    ? (Dimensions.get('window').width === X_WIDTH &&
-        Dimensions.get('window').height === X_HEIGHT) ||
-      (Dimensions.get('window').width === XSMAX_WIDTH &&
-        Dimensions.get('window').height === XSMAX_HEIGHT)
-    : false
 
 export const APP_SIZE = {
   widthWindow: Dimensions.get('window').width,
@@ -27,14 +15,19 @@ export const APP_SIZE = {
   widthScreen: Dimensions.get('screen').width,
   heightScreen: Dimensions.get('screen').height,
   statusBarHeight: Platform.select({
-    ios: isIPhoneX() ? 44 : 20,
+    ios: DeviceInfo.hasNotch() ? 44 : 20,
     android: StatusBar.currentHeight,
   }),
   appBarHeight: Platform.OS === 'ios' ? 44 : 56,
 }
 
+export const headerHeight = Platform.select({
+  ios: DeviceInfo.hasNotch() ? APP_SIZE.statusBarHeight + APP_SIZE.appBarHeight : APP_SIZE.appBarHeight,
+  android: APP_SIZE.appBarHeight
+})
+
 export const avgSize = (APP_SIZE.widthWindow + APP_SIZE.heightWindow) / 2.0
-export const APP_RATIO = (APP_SIZE.heightWindow + APP_SIZE.heightWindow) / 100.0
+export const APP_RATIO = (APP_SIZE.heightWindow + APP_SIZE.widthWindow) / 100.0
 
 export const FILE_USER_TOKEN = 'BBQ_USER_TOKEN'
 export const FILE_USER_DATA = 'BBQ_USER_DATA'

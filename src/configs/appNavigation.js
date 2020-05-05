@@ -5,14 +5,13 @@ import { createStackNavigator } from '@react-navigation/stack'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import * as Screens from '../screens'
 import AsyncStorage from '@react-native-community/async-storage'
-import { FILE_USER_DATA, APP_SIZE, isIPhoneX } from './appConstants'
+import { FILE_USER_DATA, APP_SIZE, APP_RATIO, avgSize } from './appConstants'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import Images from '@assets/images'
 import Shadow from 'react-native-shadow-creator'
-import { Header, AppText } from '../components'
-import { APP_COLORS, styles } from './theme'
-
-const avgSize = (APP_SIZE.heightScreen + APP_SIZE.widthScreen) / 2.0
+import { Header, AppText, SearchBar } from '../components'
+import { APP_COLORS, styles, appBorderRadius, APP_FONT_SIZES } from './theme'
+import DeviceInfo from 'react-native-device-info'
 
 const Tab = createBottomTabNavigator()
 const Stack = createStackNavigator()
@@ -42,10 +41,12 @@ const AppContainer = (props) => {
           activeTintColor: APP_COLORS.main,
           inactiveTintColor: 'gray',
           adaptive: false,
-          keyboardHidesTabBar: true,
+          keyboardHidesTabBar: false,
           style: {
-            // height: APP_SIZE.heightScreen * 0.1,
+            height: APP_SIZE.heightWindow * 0.1,
             backgroundColor: '#fff',
+            paddingBottom:
+              Platform.OS === 'android' ? APP_SIZE.heightWindow * 0.02 : 34,
             ...Shadow(12),
           },
         }}>
@@ -156,24 +157,9 @@ const HomeNav = () => {
   return (
     <Stack.Navigator
       screenOptions={{
-        header: (props) => (
-          <Header {...props} backgroundColor={APP_COLORS.main}>
-            <View
-              style={[styles.center, styles.container]}>
-              <Text
-                style={{
-                  fontSize: 20,
-                  fontFamily: 'OpenSans-Bold',
-                  color: '#fff',
-                  marginTop: isIPhoneX() ? APP_SIZE.statusBarHeight : 0,
-                }}>
-                Bamboo Quest
-              </Text>
-            </View>
-          </Header>
-        ),
+        headerShown: false
       }}>
-      <Stack.Screen name="Home" component={Screens.HomeScreen} />
+      <Stack.Screen style={{ marginTop: 100 }} name="Home" component={Screens.HomeScreen} />
     </Stack.Navigator>
   )
 }

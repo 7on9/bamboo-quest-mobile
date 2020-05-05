@@ -14,14 +14,14 @@ import { APP_COLORS } from '../configs/theme'
 export const Header = (props) => {
   return (
     <View
-      style={{
-        height:
-          Platform.OS === 'ios'
-            ? APP_SIZE.appBarHeight + APP_SIZE.statusBarHeight
-            : APP_SIZE.appBarHeight,
-        backgroundColor: props.backgroundColor || APP_COLORS.main,
-        ...shadow(6, props.backgroundColor || APP_COLORS.main),
-      }}>
+      style={[
+        {
+          height: APP_SIZE.statusBarHeight + APP_SIZE.statusBarHeight,
+          backgroundColor: props.backgroundColor || APP_COLORS.main,
+          ...props.style,
+        },
+        shadow(8, props.backgroundColor || APP_COLORS.main),
+      ]}>
       <StatusBar
         backgroundColor={props.backgroundColor || APP_COLORS.main}
         barStyle={props.barStyle || 'light-content'}
