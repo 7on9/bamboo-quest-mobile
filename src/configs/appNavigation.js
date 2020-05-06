@@ -46,7 +46,7 @@ const AppContainer = (props) => {
             height: APP_SIZE.heightWindow * 0.1,
             backgroundColor: '#fff',
             paddingBottom:
-              Platform.OS === 'android' ? APP_SIZE.heightWindow * 0.02 : 34,
+              Platform.OS === 'android' ? APP_SIZE.heightWindow * 0.01 : 34,
             ...Shadow(12),
           },
         }}>
@@ -159,7 +159,7 @@ const HomeNav = () => {
       screenOptions={{
         headerShown: false
       }}>
-      <Stack.Screen style={{ marginTop: 100 }} name="Home" component={Screens.HomeScreen} />
+      <Stack.Screen name="Home" component={Screens.HomeScreen} />
     </Stack.Navigator>
   )
 }

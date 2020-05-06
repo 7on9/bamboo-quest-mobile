@@ -1,5 +1,5 @@
 import React, { useState, useRef, useMemo, useEffect } from 'react'
-import { View, Text, TextInput, TouchableOpacity } from 'react-native'
+import { View, Text, TextInput, TouchableOpacity, Platform } from 'react-native'
 import { styles, APP_COLORS, appBorderRadius, APP_FONT_SIZES } from '../configs/theme'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import { APP_RATIO, APP_SIZE } from '../configs/appConstants'
@@ -55,7 +55,7 @@ export const SearchBar = (props) => {
             {
               width: '11%',
               marginLeft: -APP_SIZE.widthScreen*0.011,
-              height: '101%',
+              height: Platform.select({ android: '100%', ios: '101%' }),
               // padding: APP_RATIO * 0.5,
               backgroundColor: '#fff',
               borderTopRightRadius: appBorderRadius,

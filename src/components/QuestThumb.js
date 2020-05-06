@@ -25,18 +25,32 @@ export const QuestThumb = (props) => {
     <View
       style={[
         styles.card,
-        { flexDirection: 'column', display: 'flex', overflow: 'hidden', backgroundColor: '#fff' },
+        {
+          flexDirection: 'column',
+          display: 'flex',
+          overflow: 'hidden',
+          backgroundColor: '#fff',
+        },
         props.style,
       ]}>
       <ImageBackground
         defaultSource={Images.picture}
         source={_.get(props, 'quest.image') || Images.picture}
-        style={{ overflow: 'hidden', flex: 1.5, alignItems: 'flex-end', justifyContent: 'flex-end' }}
-        imageStyle={{ resizeMode: 'contain', margin: -ratio * 10, backgroundColor: '#fff' }}>
+        style={{
+          overflow: 'hidden',
+          flex: 1.5,
+          alignItems: 'flex-end',
+          justifyContent: 'flex-end',
+        }}
+        imageStyle={{
+          resizeMode: 'contain',
+          margin: -ratio * 10,
+          backgroundColor: '#fff',
+        }}>
         <View
           style={{
             ...styles.center,
-            margin: ratio*2.5,
+            margin: ratio * 2.5,
             backgroundColor: 'rgba(0, 0, 0, 0.4)',
             borderRadius: ratio * 2,
           }}>
@@ -65,14 +79,25 @@ export const QuestThumb = (props) => {
         <View style={{ flex: 1, flexDirection: 'row' }}>
           <AppText
             numberOfLines={1}
-            style={{ fontSize: ratio * 3, color: APP_COLORS.text.normal, flex: 1 }}>
+            style={{
+              fontSize: ratio * 3,
+              color: APP_COLORS.text.normal,
+              flex: 1,
+            }}>
             {props.quest.author || ''}
           </AppText>
-          <AppText
-            numberOfLines={1}
-            style={{ fontSize: ratio * 3, color: APP_COLORS.text.normal, flex: 1 }}>
-            {props.quest._id ? objectIdToDate(props.quest._id).toLocaleDateString('VN') : '' }
-          </AppText>
+          <View style={{ flex: 1, alignItems: 'flex-end' }}>
+            <AppText
+              numberOfLines={1}
+              style={{
+                fontSize: ratio * 3,
+                color: APP_COLORS.text.normal,
+              }}>
+              {props.quest._id
+                ? objectIdToDate(props.quest._id).toLocaleDateString('VN')
+                : ''}
+            </AppText>
+          </View>
         </View>
       </View>
     </View>

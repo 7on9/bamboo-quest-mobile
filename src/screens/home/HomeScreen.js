@@ -19,10 +19,43 @@ import {
 import { shadow } from 'react-native-shadow-creator/shadow'
 import { FlatList } from 'react-native-gesture-handler'
 import { dataProvider } from '../../../services/dataProvider'
-import { AppTextBold, Header, SearchBar } from '../../components'
+import { AppTextBold, Header, SearchBar, BaseScreen } from '../../components'
 import Images from '@assets/images'
 import { useSelector } from 'react-redux'
 import DeviceInfo from 'react-native-device-info'
+
+const HomeScreenHeader = () => (
+  <Header
+    style={{
+      height: headerHeight + APP_SIZE.heightWindow * 0.15 * 0.35,
+      paddingBottom: APP_RATIO / 2,
+      // opacity: 0.5,
+      zIndex: 999,
+    }}
+    backgroundColor={APP_COLORS.main}>
+    <View style={[styles.center, styles.container]}>
+      <Text
+        style={{
+          fontSize: APP_FONT_SIZES.header,
+          fontFamily: 'OpenSans-Bold',
+          color: '#fff',
+          marginTop: DeviceInfo.hasNotch() ? APP_SIZE.statusBarHeight : 0,
+        }}>
+        Bamboo Quest
+      </Text>
+      <SearchBar
+        style={{
+          height: APP_SIZE.heightWindow * 0.15 * 0.35,
+          // backgroundColor: APP_COLORS.main,
+          marginHorizontal: APP_RATIO,
+          marginTop: APP_RATIO,
+          marginBottom: APP_RATIO * 0.5,
+          borderRadius: appBorderRadius,
+        }}
+      />
+    </View>
+  </Header>
+)
 
 const _HomeScreen = () => {
   const [publicQuests, setPublicQuests] = useState([])
@@ -41,39 +74,8 @@ const _HomeScreen = () => {
   }, [])
 
   return (
-    <View style={{ flex: 1 }}>
-      <Header
-        style={{
-          height: headerHeight + APP_SIZE.heightWindow * 0.15 * 0.35,
-          paddingBottom: APP_RATIO / 2,
-          // opacity: 0.5,
-          zIndex: 999,
-        }}
-        backgroundColor={APP_COLORS.main}>
-        <View style={[styles.center, styles.container]}>
-          <Text
-            style={{
-              fontSize: APP_FONT_SIZES.header,
-              fontFamily: 'OpenSans-Bold',
-              color: '#fff',
-              marginTop: DeviceInfo.hasNotch() ? APP_SIZE.statusBarHeight : 0,
-            }}>
-            Bamboo Quest
-          </Text>
-          <SearchBar
-            style={{
-              height: APP_SIZE.heightWindow * 0.15 * 0.35,
-              // backgroundColor: APP_COLORS.main,
-              marginHorizontal: APP_RATIO,
-              marginTop: APP_RATIO,
-              marginBottom: APP_RATIO * 0.5,
-              borderRadius: appBorderRadius,
-            }}
-          />
-        </View>
-      </Header>
-      
-      <View style={{flex: 1}}>
+    <BaseScreen header={HomeScreenHeader}>
+      <View style={{ flex: 1 }}>
         <ScrollView style={style.scrollView}>
           {/* Banner */}
           {/* <View style={[styles.card, { height: APP_SIZE.heightWindow * 0.075, margin: APP_RATIO, flexDirection: 'row' }]}>
@@ -101,7 +103,7 @@ const _HomeScreen = () => {
           />
         </ScrollView>
       </View>
-    </View>
+    </BaseScreen>
   )
 }
 
@@ -112,7 +114,7 @@ const ListQuestViewer = ({ listItems, backgroundColor, title, icon }) => {
     <View
       style={{
         display: 'flex',
-        height: APP_SIZE.heightWindow / 3 + APP_RATIO * 4,
+        height: APP_SIZE.heightWindow / 3 + APP_RATIO * 5,
         backgroundColor,
         marginBottom: APP_RATIO,
         ...shadow(12, backgroundColor),

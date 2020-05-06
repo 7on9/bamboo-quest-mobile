@@ -5,6 +5,7 @@ import { APP_RATIO } from "./appConstants"
 export const appBorderRadius = APP_RATIO * 0.5
 
 export const APP_FONT_SIZES = {
+  ssmall:  APP_RATIO * 0.75,
   small:  APP_RATIO,
   normal:  APP_RATIO * 1.25,
   header:  APP_RATIO * 1.5,
@@ -20,7 +21,7 @@ export const styles = StyleSheet.create({
   },
   card: {
     borderRadius: APP_RATIO * 0.75,
-    overflow: 'hidden',
+    // overflow: 'hidden',
     backgroundColor: '#fff',
     ...shadow(2)
   },
