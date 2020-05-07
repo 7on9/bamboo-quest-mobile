@@ -30,7 +30,6 @@ const HomeScreenHeader = () => (
       height: headerHeight + APP_SIZE.heightWindow * 0.15 * 0.35,
       paddingBottom: APP_RATIO / 2,
       // opacity: 0.5,
-      zIndex: 999,
     }}
     backgroundColor={APP_COLORS.main}>
     <View style={[styles.center, styles.container]}>
@@ -114,7 +113,7 @@ const ListQuestViewer = ({ listItems, backgroundColor, title, icon }) => {
     <View
       style={{
         display: 'flex',
-        height: APP_SIZE.heightWindow / 3 + APP_RATIO * 5,
+        height: APP_RATIO * 27.5,
         backgroundColor,
         marginBottom: APP_RATIO,
         ...shadow(12, backgroundColor),
@@ -177,8 +176,10 @@ const ListQuestViewer = ({ listItems, backgroundColor, title, icon }) => {
               <QuestThumb
                 key={quest._id}
                 style={{
-                  width: APP_SIZE.widthWindow / 2,
-                  height: APP_SIZE.heightWindow / 3,
+                  // width: APP_SIZE.widthWindow / 2,
+                  // height: APP_SIZE.heightWindow / 3,
+                  width: APP_RATIO * 16,
+                  height: APP_RATIO * 22.5,
                   marginRight: APP_RATIO,
                 }}
                 quest={{

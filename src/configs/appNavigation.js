@@ -12,6 +12,7 @@ import Shadow from 'react-native-shadow-creator'
 import { Header, AppText, SearchBar } from '../components'
 import { APP_COLORS, styles, appBorderRadius, APP_FONT_SIZES } from './theme'
 import DeviceInfo from 'react-native-device-info'
+import { useSelector } from 'react-redux'
 
 const Tab = createBottomTabNavigator()
 const Stack = createStackNavigator()
@@ -23,6 +24,7 @@ const AppContainer = (props) => {
     setUser(_user)
   }
   const [user, setUser] = useState(null)
+
   useEffect(() => {
     if (user) return
     getUser()
@@ -43,10 +45,10 @@ const AppContainer = (props) => {
           adaptive: false,
           keyboardHidesTabBar: false,
           style: {
-            height: APP_SIZE.heightWindow * 0.1,
+            height: APP_RATIO * 7,
             backgroundColor: '#fff',
             paddingBottom:
-              Platform.OS === 'android' ? APP_SIZE.heightWindow * 0.01 : 34,
+              Platform.OS === 'android' ? APP_RATIO/2 : 34,
             ...Shadow(12),
           },
         }}>
@@ -54,6 +56,7 @@ const AppContainer = (props) => {
           name="Home"
           component={HomeNav}
           options={{
+            tabBarLabel: "Trang chủ",
             tabBarIcon: ({ color, focused }) => (
               <View>
                 <Icon size={focused ? 32 : 24} name="home" color={color} />
@@ -65,6 +68,7 @@ const AppContainer = (props) => {
           name="CreateQuest"
           component={CreateQuestNav}
           options={{
+            tabBarLabel: "Tạo câu hỏi",
             tabBarIcon: ({ focused, color }) => (
               <View>
                 <Icon
@@ -80,6 +84,7 @@ const AppContainer = (props) => {
           name="Play"
           component={PlayNav}
           options={{
+            tabBarLabel: "Chơi ngay",
             tabBarIcon: ({ focused }) => (
               <View
                 style={{
@@ -101,8 +106,9 @@ const AppContainer = (props) => {
         />
         <Tab.Screen
           name="Profile"
-          component={ProfileNav}
+          component={user ? ProfileNav : Screens.LoginScreen}
           options={{
+            tabBarLabel: "Hồ sơ",
             tabBarIcon: ({ color, focused }) => (
               <View>
                 <Icon size={focused ? 32 : 24} name="user" color={color} />
@@ -129,7 +135,7 @@ const AppContainer = (props) => {
 const ProfileNav = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Profile" component={Screens.ProfileScreen} />
+      <Stack.Screen name="Profile"  component={Screens.ProfileScreen} />
       {/* <Stack.Screen name="SettingUser" component={SettingUserScreen}/> */}
     </Stack.Navigator>
   )

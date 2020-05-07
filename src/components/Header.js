@@ -18,8 +18,9 @@ export const Header = (props) => {
         {
           height: APP_SIZE.statusBarHeight + APP_SIZE.statusBarHeight,
           backgroundColor: props.backgroundColor || APP_COLORS.main,
-          ...props.style,
+          zIndex: 999,
         },
+        props.style,
         shadow(8, props.backgroundColor || APP_COLORS.main),
       ]}>
       <StatusBar

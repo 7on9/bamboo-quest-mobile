@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react'
-import { View, Text, Image, ImageBackground } from 'react-native'
+import { View, Text, Image, ImageBackground, TouchableOpacity } from 'react-native'
 import { styles, APP_COLORS } from '../configs/theme'
 import Images from '@assets/images'
 import { AppText, AppTextBold } from './Text'
@@ -9,7 +9,7 @@ import { DEFAULT_DATE_FORMAT } from '../configs/appConstants'
 
 /**
  * @param {{
-    style: import('react-native').ViewStyle,
+    style: import('react-native').TouchableOpacityStyle,
     quest: {
       image: string, 
       title: string,
@@ -22,7 +22,7 @@ export const QuestThumb = (props) => {
   const { height, width } = props.style
   const ratio = (height + width) / 100.0
   return (
-    <View
+    <TouchableOpacity
       style={[
         styles.card,
         {
@@ -100,6 +100,6 @@ export const QuestThumb = (props) => {
           </View>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   )
 }

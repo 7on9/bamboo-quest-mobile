@@ -1,6 +1,13 @@
 import React from 'react'
-import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity } from 'react-native'
-import { BaseScreen, AppTextBold, AppText } from '../../components'
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native'
+import { BaseScreen, AppTextBold, AppText, AppButton } from '../../components'
 import Images from '@assets/images'
 import { styles, APP_COLORS, APP_FONT_SIZES } from '../../configs/theme'
 import { APP_SIZE, APP_RATIO } from '../../configs/appConstants'
@@ -13,11 +20,13 @@ const _ProfileScreen = () => {
       <View
         style={[
           {
-            flex: 2.5,
+            // flex: 6.5,
             backgroundColor: APP_COLORS.main,
-            opacity: 999,
-            justifyContent: 'flex-end',
+            // opacity: 999,
+            // justifyContent: 'center',
+            // alignItems: 'center',
             zIndex: 999,
+            height: APP_RATIO * 29,
             // marginBottom: 12,
           },
           styles.center,
@@ -28,20 +37,20 @@ const _ProfileScreen = () => {
             {
               flex: 4,
               justifyContent: 'flex-end',
-              paddingBottom: APP_RATIO,
+              alignItems: 'center',
             },
-            shadow(4),
+            shadow(6),
           ]}>
           <Image
             defaultSource={Images.picture}
             source={Images.picture}
             style={{
               borderColor: '#fff',
-              borderRadius: APP_SIZE.widthWindow * 0.1125,
+              borderRadius: APP_RATIO * 30,
               borderWidth: APP_RATIO * 0.3,
-              height: APP_SIZE.widthWindow * 0.225,
+              height: APP_RATIO * 15,
               resizeMode: 'cover',
-              width: APP_SIZE.widthWindow * 0.225,
+              width: APP_RATIO * 15,
             }}
           />
         </View>
@@ -51,12 +60,13 @@ const _ProfileScreen = () => {
             flexDirection: 'row',
             alignItems: 'center',
             paddingBottom: APP_RATIO,
+            ...shadow(6)
           }}>
           <AppTextBold
-            style={{ color: '#fff', fontSize: APP_FONT_SIZES.header }}>
-            Tên người dùng{'  '}
+            style={{ color: '#fff', fontSize: APP_RATIO * 2 }}>
+            Tên ingame{'  '}
           </AppTextBold>
-          <Icon name="pencil" size={APP_FONT_SIZES.normal} color="#fff" />
+          <Icon name="pencil" size={APP_RATIO * 1.5} color="#fff" />
         </View>
       </View>
       <View
@@ -65,68 +75,30 @@ const _ProfileScreen = () => {
           styles.center,
         ]}>
         <ScrollView style={{ flex: 1, paddingVertical: APP_RATIO }}>
-          {[1, 2, 3, 4, 5, 6, 7, 8].map(() => (
-            <TouchableOpacity
-              style={[
-                {
-                  backgroundColor: '#fff',
-                  marginHorizontal: APP_RATIO,
-                  height: APP_SIZE.heightWindow * 0.1,
-                  width: APP_SIZE.widthWindow - APP_RATIO * 2,
-                  flexDirection: 'row',
-                  borderRadius: APP_RATIO * 0.4,
-                  marginBottom: APP_RATIO,
-                },
-                shadow(4),
-                { overflow: 'visible' },
-              ]}>
-              <View style={[{ flex: 2 }, styles.center]}>
-                <View
-                  style={[
-                    {
-                      backgroundColor: 'rgba(01, 01, 01, 0.15)',
-                      width: APP_RATIO * 3,
-                      height: APP_RATIO * 3,
-                      borderRadius: APP_RATIO * 1.5,
-                    },
-                    styles.center,
-                  ]}>
-                  <Icon
-                    size={APP_RATIO * 2}
-                    name="user"
-                    color="rgba(01,01,01, 0.5)"
-                  />
-                </View>
-              </View>
-
-              <View style={[{ flex: 6, paddingVertical: APP_RATIO }]}>
-                <View style={{ flex: 2 }}>
-                  <AppTextBold style={{ fontSize: APP_FONT_SIZES.header }}>
-                    Tên người dùng
-                  </AppTextBold>
-                </View>
-                <View style={{ flex: 1 }}>
-                  <AppText style={{ fontSize: APP_FONT_SIZES.small }}>
-                    Tiêu đề
-                  </AppText>
-                </View>
-              </View>
-              {/* <View style={[{ flex: 2 }, styles.center]}>
-              <View
-                style={[
-                  {
-                    backgroundColor: 'rgba(01, 01, 01, 0.15)',
-                    width: APP_RATIO * 3,
-                    height: APP_RATIO * 3,
-                    borderRadius: APP_RATIO * 1.5,
-                  },
-                  styles.center,
-                ]}>
-                <Icon size={APP_RATIO * 2} name="pencil" color="gray" />
-              </View>
-            </View> */}
-            </TouchableOpacity>
-          ))}
+          {/* <AppButton style={{ backgroundColor: 'red', ...styles.center  }}>
+            <AppTextBold style={{ color: '#fff', fontSize: APP_FONT_SIZES.normal }}>
+              test
+            </AppTextBold>
+          </AppButton> */}
+          <ItemInfo
+            key={Math.random()}
+            icon="user"
+            title="Họ và tên"
+            value="Tên người dùng"
+          />
+          <ItemInfo
+            key={Math.random()}
+            icon="at"
+            title="Email"
+            value="your_email@sample.com"
+          />
+          <ItemInfo
+            key={Math.random()}
+            icon="birthday-cake"
+            title="Năm sinh"
+            value="20/07/1998"
+          />
+          <ItemInfo key={Math.random()} icon="sign-out" value="Đăng xuất" />
         </ScrollView>
       </View>
     </View>
@@ -134,3 +106,71 @@ const _ProfileScreen = () => {
 }
 
 export const ProfileScreen = _ProfileScreen
+
+const ItemInfo = ({ style, icon, title, value }) => {
+  return (
+    <TouchableOpacity
+      style={[
+        {
+          backgroundColor: '#fff',
+          marginHorizontal: APP_RATIO,
+          height: APP_SIZE.heightWindow * 0.1,
+          width: APP_SIZE.widthWindow - APP_RATIO * 2,
+          flexDirection: 'row',
+          borderRadius: APP_RATIO * 0.4,
+          marginBottom: APP_RATIO,
+        },
+        shadow(2),
+        { overflow: 'visible' },
+        style,
+      ]}>
+      <View style={[{ flex: 2 }, styles.center]}>
+        <View
+          style={[
+            {
+              backgroundColor: 'rgba(01, 01, 01, 0.15)',
+              width: APP_RATIO * 3,
+              height: APP_RATIO * 3,
+              borderRadius: APP_RATIO * 1.5,
+            },
+            styles.center,
+          ]}>
+          <Icon
+            size={APP_RATIO * 1.75}
+            name={icon}
+            color="rgba(01,01,01, 0.5)"
+          />
+        </View>
+      </View>
+
+      <View style={[{ flex: 6, paddingVertical: APP_RATIO }]}>
+        <View style={{ flex: 2, justifyContent: 'center' }}>
+          <AppTextBold style={{ fontSize: APP_FONT_SIZES.header }}>
+            {value}
+          </AppTextBold>
+        </View>
+        {title && (
+          <View style={{ flex: 1 }}>
+            <AppText style={{ fontSize: APP_FONT_SIZES.small }}>
+              {title}
+            </AppText>
+          </View>
+        )}
+      </View>
+      {/* <View style={[{ flex: 2 }, styles.center]}>
+    <View
+      style={[
+        {
+          backgroundColor: 'rgba(01, 01, 01, 0.15)',
+          width: APP_RATIO * 3,
+          height: APP_RATIO * 3,
+          borderRadius: APP_RATIO * 1.5,
+        },
+        styles.center,
+      ]}>
+      <Icon size={APP_RATIO * 2} name="pencil" color="gray" />
+    </View>
+  </View> */}
+    </TouchableOpacity>
+  )
+}

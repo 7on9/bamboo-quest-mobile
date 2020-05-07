@@ -1,6 +1,12 @@
 import React from 'react'
 import { Text } from 'react-native'
 
+/**
+ * 
+ * @param {{
+  style: import('react-native').TextStyle
+}} props 
+*/
 export const AppText = props => {
   return (
     <Text {...props} style={{ fontFamily: 'OpenSans-Regular', ...props.style }}>
