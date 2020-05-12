@@ -25,6 +25,12 @@ export const styles = StyleSheet.create({
     backgroundColor: '#fff',
     ...shadow(2)
   },
+  button: {
+    borderRadius: APP_RATIO * 0.75,
+    // overflow: 'hidden',
+    backgroundColor: '#fff',
+    ...shadow(2)
+  },
 })
 
 export const APP_COLORS = {
