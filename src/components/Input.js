@@ -2,8 +2,9 @@ import React from 'react'
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome'
 import { Fumi } from 'react-native-textinput-effects'
 import { View, Text } from 'react-native'
-import { styles, APP_FONT_SIZES } from '../configs/theme'
+import { styles, APP_FONT_SIZES, APP_COLORS } from '../configs/theme'
 import { APP_RATIO } from '../configs/appConstants'
+import { shadow } from 'react-native-shadow-creator/shadow'
 
 /**
  * 
@@ -15,6 +16,7 @@ import { APP_RATIO } from '../configs/appConstants'
   secureTextEntry,
   autoFocus,
   onChangeText,
+  height,
   style,
   inputStyle
  }} props 
@@ -29,6 +31,7 @@ export const Input = (props) => {
     autoFocus,
     onChangeText,
     style,
+    height,
     inputStyle,
   } = props
   return (
@@ -36,7 +39,7 @@ export const Input = (props) => {
       ref={ref}
       label={label}
       numberOfLines={1}
-      iconColor={'gray'}
+      iconColor={APP_COLORS.main}
       iconName={iconName}
       height={APP_RATIO * 3.5}
       iconWidth={APP_RATIO * 5}
@@ -47,6 +50,10 @@ export const Input = (props) => {
       secureTextEntry={secureTextEntry || false}
       textContentType={textContentType || 'none'}
       onChangeText={onChangeText}
+      multiline={false}
+      maxLength={32}
+      textAlignVertical="center"
+      {...props}
       inputStyle={[{
         fontSize: APP_FONT_SIZES.header,
         textAlignVertical: 'center',

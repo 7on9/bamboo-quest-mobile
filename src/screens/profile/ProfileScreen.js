@@ -1,7 +1,5 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import {
-  StyleSheet,
-  Text,
   View,
   Image,
   ScrollView,
@@ -13,8 +11,14 @@ import { styles, APP_COLORS, APP_FONT_SIZES } from '../../configs/theme'
 import { APP_SIZE, APP_RATIO } from '../../configs/appConstants'
 import { shadow } from 'react-native-shadow-creator/shadow'
 import Icon from 'react-native-vector-icons/FontAwesome'
+import { useSelector, useDispatch } from 'react-redux'
+import { logOut } from '../../redux/actions/authAction'
 
 const _ProfileScreen = () => {
+  const { user } = useSelector(state => state.auth)
+  const dispatch = useDispatch()
+  console.log(user)
+  const { avatar_path, email, name } = useMemo(() => user, [user])
   return (
     <View style={[styles.container]}>
       <View
@@ -43,7 +47,7 @@ const _ProfileScreen = () => {
           ]}>
           <Image
             defaultSource={Images.picture}
-            source={Images.picture}
+            source={{ uri: avatar_path }}
             style={{
               borderColor: '#fff',
               borderRadius: APP_RATIO * 30,
@@ -64,7 +68,7 @@ const _ProfileScreen = () => {
           }}>
           <AppTextBold
             style={{ color: '#fff', fontSize: APP_RATIO * 2 }}>
-            Tên ingame{'  '}
+            Tên ingame
           </AppTextBold>
           <Icon name="pencil" size={APP_RATIO * 1.5} color="#fff" />
         </View>
@@ -84,13 +88,13 @@ const _ProfileScreen = () => {
             key={Math.random()}
             icon="user"
             title="Họ và tên"
-            value="Tên người dùng"
+            value={name || "Tên người dùng"}
           />
           <ItemInfo
             key={Math.random()}
             icon="at"
             title="Email"
-            value="your_email@sample.com"
+            value={ email || "your_email@sample.com"}
           />
           <ItemInfo
             key={Math.random()}
@@ -98,7 +102,7 @@ const _ProfileScreen = () => {
             title="Năm sinh"
             value="20/07/1998"
           />
-          <ItemInfo key={Math.random()} icon="sign-out" value="Đăng xuất" />
+          <ItemInfo key={Math.random()} icon="sign-out" value="Đăng xuất" onPress={() => dispatch(logOut())} />
         </ScrollView>
       </View>
     </View>
@@ -107,9 +111,10 @@ const _ProfileScreen = () => {
 
 export const ProfileScreen = _ProfileScreen
 
-const ItemInfo = ({ style, icon, title, value }) => {
+const ItemInfo = ({ style, icon, title, value, onPress }) => {
   return (
     <TouchableOpacity
+      onPress={onPress}
       style={[
         {
           backgroundColor: '#fff',

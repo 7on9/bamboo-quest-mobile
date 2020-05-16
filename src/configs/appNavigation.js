@@ -17,7 +17,10 @@ import { useSelector } from 'react-redux'
 const Tab = createBottomTabNavigator()
 const Stack = createStackNavigator()
 
+
 const AppContainer = (props) => {
+  let isAuthenticated = useSelector(state => state.auth.isAuthenticated)
+  console.log(isAuthenticated)
   const getUser = async () => {
     await Icon.loadFont()
     let _user = await AsyncStorage.getItem(FILE_USER_DATA)
@@ -106,7 +109,7 @@ const AppContainer = (props) => {
         />
         <Tab.Screen
           name="Profile"
-          component={user ? ProfileNav : Screens.LoginScreen}
+          component={isAuthenticated ? ProfileNav : Screens.LoginScreen}
           options={{
             tabBarLabel: "Hồ sơ",
             tabBarIcon: ({ color, focused }) => (

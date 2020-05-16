@@ -18,8 +18,8 @@ import {
 } from '../../configs/theme'
 import { shadow } from 'react-native-shadow-creator/shadow'
 import { FlatList } from 'react-native-gesture-handler'
-import { dataProvider } from '../../../services/dataProvider'
-import { AppTextBold, Header, SearchBar, BaseScreen } from '../../components'
+import { dataProvider } from '../../services/dataProvider'
+import { AppTextBold, Header, SearchBar, BaseScreen, CategoryThumb } from '../../components'
 import Images from '@assets/images'
 import { useSelector } from 'react-redux'
 import DeviceInfo from 'react-native-device-info'
@@ -58,9 +58,16 @@ const HomeScreenHeader = () => (
 
 const _HomeScreen = () => {
   const [publicQuests, setPublicQuests] = useState([])
+  const [categories, setCategories] = useState([])
+
   const getQuest = async () => {
     let res = await dataProvider('/quest/?limit=10&skip=0')
     setPublicQuests(res && res.data ? res.data : [])
+  }
+  
+  const getCategory = async () => {
+    let res = await dataProvider('/category/?limit=10&skip=0')
+    setCategories(res && res.data ? res.data : [])
   }
 
   const auth = useSelector((state) => state.auth)
@@ -70,6 +77,11 @@ const _HomeScreen = () => {
   useEffect(() => {
     if (publicQuests.length) return
     getQuest()
+  }, [])
+
+  useEffect(() => {
+    if (categories.length) return
+    getCategory()
   }, [])
 
   return (
@@ -99,6 +111,12 @@ const _HomeScreen = () => {
             backgroundColor="#f85457"
             icon={Images.newStar}
             title="Thử thách mới"
+          />
+          <ListCategoryViewer
+            listItems={categories}
+            backgroundColor="#4C5454"
+            icon={Images.newStar}
+            title="Chủ đề"
           />
         </ScrollView>
       </View>
@@ -186,6 +204,97 @@ const ListQuestViewer = ({ listItems, backgroundColor, title, icon }) => {
                   ...quest,
                   image: {
                     uri: quest.img_path,
+                  },
+                }}
+              />
+            )
+          }}
+        />
+      ) : null}
+    </View>
+  )
+}
+
+const ListCategoryViewer = ({ listItems, backgroundColor, title, icon }) => {
+  return (
+    <View
+      style={[
+        {
+          display: 'flex',
+          height: APP_RATIO * 27.5,
+          backgroundColor,
+          marginBottom: APP_RATIO,
+        },
+        shadow(12, backgroundColor),
+      ]}>
+      <View style={{ flexDirection: 'row' }}>
+        <View
+          style={{
+            flex: 1,
+            marginLeft: APP_RATIO,
+            paddingTop: APP_RATIO * 0.5,
+            flexDirection: 'row',
+          }}>
+          <Image
+            source={icon}
+            style={{
+              width: APP_FONT_SIZES.header,
+              height: APP_FONT_SIZES.header,
+            }}
+          />
+          <AppTextBold
+            style={{
+              fontSize: APP_FONT_SIZES.normal,
+              color: '#fff',
+              marginLeft: APP_RATIO / 4,
+            }}>
+            {title}
+          </AppTextBold>
+        </View>
+        <TouchableOpacity
+          style={{
+            marginRight: APP_RATIO,
+            paddingTop: APP_RATIO * 0.5,
+          }}>
+          <AppTextBold
+            style={{ fontSize: APP_FONT_SIZES.normal, color: '#fff' }}>
+            Xem tất cả
+          </AppTextBold>
+        </TouchableOpacity>
+      </View>
+      {listItems.length ? (
+        <FlatList
+          data={listItems}
+          horizontal={true}
+          contentContainerStyle={{
+            alignSelf: 'center',
+            paddingRight: APP_RATIO,
+            ...shadow(10),
+          }}
+          style={{
+            width: APP_SIZE.widthWindow,
+            height: APP_SIZE.heightWindow / 3 + APP_RATIO * 0.5,
+            paddingLeft: APP_RATIO,
+          }}
+          initialNumToRender={10}
+          showsHorizontalScrollIndicator={false}
+          keyExtractor={(item) => `${Date.now()}${Math.random()}${item.id}`}
+          renderItem={(item) => {
+            let category = item.item
+            return (
+              <CategoryThumb
+                key={category._id}
+                style={{
+                  // width: APP_SIZE.widthWindow / 2,
+                  // height: APP_SIZE.heightWindow / 3,
+                  width: APP_RATIO * 20,
+                  height: APP_RATIO * 22.5,
+                  marginRight: APP_RATIO,
+                }}
+                category={{
+                  ...category,
+                  image: {
+                    uri: category.img_path,
                   },
                 }}
               />

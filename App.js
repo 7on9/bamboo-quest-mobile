@@ -9,8 +9,8 @@ import storeConfig from './src/configs/reduxConfig'
 import i18n from './src/i18n/i18n'
 import AsyncStorage from '@react-native-community/async-storage'
 import { RootNav } from './src/configs/appNavigation'
-import { changeLocale } from './src/actions/languageAction'
-import { LANGUAGE_CHANGE_LOCALE } from './src/actions/actionTypes'
+import { LANGUAGE_CHANGE_LOCALE } from './src/redux/actions/actionTypes'
+// import { changeLocale } from './src/redux/actions/languageAction'
 
 const LocaleProvider = (props) => {
   const loadLocale = async () => {

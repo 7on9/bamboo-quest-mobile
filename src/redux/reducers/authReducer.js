@@ -37,7 +37,7 @@ export default (state = initialState, action) => {
       return Object.assign({}, state, {
         isFetching: false,
         isAuthenticated: false,
-        errorMessage: action.err.err.message,
+        errorMessage: action.error.error.message,
       })
     case RESET_ERROR:
       return Object.assign({}, state, {

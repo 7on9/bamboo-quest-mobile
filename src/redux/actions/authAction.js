@@ -12,10 +12,10 @@ export const resetError = () => {
   }
 }
 
-export const loginRequest = (username, password) => {
+export const loginRequest = (email, password) => {
   return {
     type: LOGIN_REQUEST,
-    username,
+    email,
     password,
   }
 }
@@ -28,11 +28,11 @@ export const loginSuccess = ({ token, user }) => {
   }
 }
 
-export const loginFailure = err => {
+export const loginFailure = error => {
   // debugger;
   return {
     type: LOGIN_FAILED,
-    err,
+    error,
   }
 }
 

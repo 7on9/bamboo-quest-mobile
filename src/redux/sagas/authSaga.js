@@ -8,29 +8,29 @@ import {
   BASE_API_URL as apiURL,
   FILE_USER_DATA,
   FILE_USER_TOKEN,
-} from '../configs/appConstants'
+} from '../../configs/appConstants'
+import { dataProvider } from '../../services/dataProvider'
+import { errorMessage } from '../../utils/error'
 
 const doLogin = async ({ email, password }) => {
   try {
-    const response = await axios.post(apiURL + '/User/login', {
-      email,
-      password,
+    const response = await dataProvider('/User/login', {
+      method: "POST",
+      data: {
+        email,
+        password,
+      }
     })
-    console.log(response)
     await AsyncStorage.setItem(
       FILE_USER_TOKEN,
-      JSON.stringify(response.data.token)
-    )
-    await AsyncStorage.setItem(
-      FILE_USER_INFO,
       JSON.stringify(response.data.token)
     )
     // OneSignal.sendTags(tagObj)
     // savePushInfomation(response.data.userId)
     return response
   } catch (error) {
-    console.log(error)
-    return { err: { message: error.response.data.error.message } }
+    console.log('--------', error.data.statusCode)
+    return { error: { message: errorMessage.user[error.data.statusCode].login || errorMessage[error.data.statusCode] } }
   }
 }
 
@@ -43,22 +43,22 @@ function* watchLoginRequest() {
     const { email, password } = yield take(LOGIN_REQUEST)
     try {
       const payload = { email, password }
-      const { data, err } = yield call(doLogin, payload)
+      const { data, error } = yield call(doLogin, payload)
       console.log(data)
-      if (!err) {
-        yield call(saveUserInfo, data.data)
+      if (!error) {
+        yield call(saveUserInfo, data)
         yield put(
           loginActions.loginSuccess({
-            accessToken: data.accessToken,
+            token: data.token,
             user: data.info,
           })
         )
       } else {
-        yield put(loginActions.loginFailure({ err }))
-        console.log('AUTH_ERR', err)
+        yield put(loginActions.loginFailure({ error }))
+        console.log('AUTH_ERR', error)
       }
-    } catch (err) {
-      console.log('AUTH_ERR', err)
+    } catch (error) {
+      console.log('AUTH_ERR', error)
     }
   }
 }

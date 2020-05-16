@@ -2,8 +2,8 @@ import { Dimensions, Platform, StatusBar } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
 
 // dev
-// export const BASE_API_URL = 'http://localhost:2409/api'
-export const BASE_API_URL = 'http://192.168.0.105:2409/api'
+export const BASE_API_URL = 'http://localhost:2409/api'
+// export const BASE_API_URL = 'http://192.168.0.105:2409/api'
 // export const BASE_API_URL = 'http://192.168.43.10:2409/api'
 // export const BASE_API_URL = 'http://10.198.41.109:2409/api'
 // export const BASE_API_URL = 'http://172.16.2.228:2409/api'
