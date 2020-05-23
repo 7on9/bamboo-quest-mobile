@@ -15,26 +15,28 @@ import { errorMessage } from '../../utils/error'
 const doLogin = async ({ email, password }) => {
   try {
     const response = await dataProvider('/User/login', {
-      method: "POST",
+      method: 'POST',
       data: {
         email,
         password,
-      }
+      },
     })
-    await AsyncStorage.setItem(
-      FILE_USER_TOKEN,
-      JSON.stringify(response.data.token)
-    )
     // OneSignal.sendTags(tagObj)
     // savePushInfomation(response.data.userId)
     return response
   } catch (error) {
-    console.log('--------', error.data.statusCode)
-    return { error: { message: errorMessage.user[error.data.statusCode].login || errorMessage[error.data.statusCode] } }
+    return {
+      error: {
+        message:
+          errorMessage.user[error.data.statusCode].login ||
+          errorMessage[error.data.statusCode],
+      },
+    }
   }
 }
 
-const saveUserInfo = async data => {
+const saveUserInfo = async (data) => {
+  await AsyncStorage.setItem(FILE_USER_TOKEN, data.token)
   await AsyncStorage.setItem(FILE_USER_DATA, JSON.stringify(data))
 }
 
@@ -44,7 +46,6 @@ function* watchLoginRequest() {
     try {
       const payload = { email, password }
       const { data, error } = yield call(doLogin, payload)
-      console.log(data)
       if (!error) {
         yield call(saveUserInfo, data)
         yield put(

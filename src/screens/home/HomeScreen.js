@@ -70,10 +70,8 @@ const _HomeScreen = () => {
     setCategories(res && res.data ? res.data : [])
   }
 
-  const auth = useSelector((state) => state.auth)
-
-  console.log(auth)
-
+  const { user, isAuthenticated } = useSelector((state) => state.auth)
+  console.log(user)
   useEffect(() => {
     if (publicQuests.length) return
     getQuest()
@@ -92,7 +90,7 @@ const _HomeScreen = () => {
           {/* <View style={[styles.card, { height: APP_SIZE.heightWindow * 0.075, margin: APP_RATIO, flexDirection: 'row' }]}>
               </View> */}
           {/* ListQuests */}
-          {auth.isAuthenticated && (
+          {isAuthenticated && (
             <ListQuestViewer
               listItems={publicQuests}
               backgroundColor="#645DD7"

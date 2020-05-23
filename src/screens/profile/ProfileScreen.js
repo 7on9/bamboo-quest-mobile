@@ -17,7 +17,6 @@ import { logOut } from '../../redux/actions/authAction'
 const _ProfileScreen = () => {
   const { user } = useSelector(state => state.auth)
   const dispatch = useDispatch()
-  console.log(user)
   const { avatar_path, email, name } = useMemo(() => user, [user])
   return (
     <View style={[styles.container]}>

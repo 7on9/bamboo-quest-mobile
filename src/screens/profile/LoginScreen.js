@@ -14,6 +14,7 @@ import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { useDispatch, useSelector } from 'react-redux'
 import { loginRequest, resetError } from '../../redux/actions/authAction'
+import { dataProvider } from '../../services/dataProvider'
 // import { loginRequest } from '../../redux/actions/authAction'
 
 export const LoginScreen = () => {
@@ -28,7 +29,7 @@ export const LoginScreen = () => {
   
   const [error, setError] = useState(null)
   const { errorMessage } = useSelector(state => state.auth)
-  console.log(errorMessage)
+
   useEffect(() => {
     if (error) {
       setTimeout(() => {
@@ -47,7 +48,8 @@ export const LoginScreen = () => {
     }, 1000)
   }, [errorMessage])
   
-  const onSubmit = () => {
+  const onSubmit = async () => {
+    console.log(form)
     let { name, email, password, reTypePassword } = form
     if (!email.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)) {
       setError('Cần nhập đúng định dạng email')
@@ -59,13 +61,28 @@ export const LoginScreen = () => {
       // }
       if (isRegister) {
         if (name && email && password && reTypePassword) {
-          
+          if (password != reTypePassword) {
+            setError('Mật khẩu gõ lại không trùng khớp')
+            return
+          }
+          try {
+            let res = await dataProvider('/user/register', {
+              method: 'POST',
+              data: {
+                email,
+                password,
+                name
+              }
+            })
+            res = res.data
+            setError('Đăng ký thành công. Hãy đăng nhập vào hệ thống.')
+            setIsRegister(false)
+          } catch (error) {
+            console.log(error)
+            setError("Đăng ký thất bại. Email đã được sử dụng.")            
+          }
         } else {
           setError('Hãy điền đủ các trường')
-          return
-        }
-        if (password != reTypePasswd) {
-          setError('Mật khẩu gõ lại không trùng khớp')
           return
         }
       } else {
@@ -73,7 +90,6 @@ export const LoginScreen = () => {
           setError('Hãy điền đủ các trường')
           return
         }
-        console.log(email, password)
         dispatch(loginRequest(email, password))
       }
     }

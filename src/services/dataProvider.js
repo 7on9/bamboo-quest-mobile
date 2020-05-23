@@ -12,7 +12,7 @@ export const dataProvider = async (sourceUrl, option) => {
     option = option || {}
     const headers = {
       'content-type': 'application/json; charset=utf-8',
-      token: AsyncStorage.getItem(FILE_USER_TOKEN),
+      token: await AsyncStorage.getItem(FILE_USER_TOKEN),
     }
     const method = option.method || 'GET'
     const options = { headers }

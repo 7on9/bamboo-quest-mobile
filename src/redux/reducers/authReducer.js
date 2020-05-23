@@ -4,7 +4,10 @@ import {
   LOGIN_SUCCESS,
   LOG_OUT,
   RESET_ERROR,
+  VERIFY,
 } from '../actions/actionTypes'
+import AsyncStorage from '@react-native-community/async-storage'
+import { FILE_USER_TOKEN, FILE_USER_DATA } from '../../configs/appConstants'
 const initialState = {
   isAuthenticated: false,
   isFetching: '',
@@ -33,6 +36,14 @@ export default (state = initialState, action) => {
         isValidToken: true,
         errorMessage: '',
       })
+    case VERIFY:
+      return Object.assign({}, state, {
+        isAuthenticated: action.token ? true : false,
+        token: action.token,
+        user: action.user,
+        isValidToken: action.token ? true : false,
+        errorMessage: action.token ? '' : 'Lỗi xác thực.',
+      })
     case LOGIN_FAILED:
       return Object.assign({}, state, {
         isFetching: false,
@@ -44,7 +55,6 @@ export default (state = initialState, action) => {
         errorMessage: '',
       })
     case LOG_OUT:
-      // auth().signOut()
       return Object.assign({}, state, {
         isAuthenticated: false,
         isFetching: '',

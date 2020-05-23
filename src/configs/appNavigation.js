@@ -5,24 +5,40 @@ import { createStackNavigator } from '@react-navigation/stack'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import * as Screens from '../screens'
 import AsyncStorage from '@react-native-community/async-storage'
-import { FILE_USER_DATA, APP_SIZE, APP_RATIO, avgSize } from './appConstants'
+import { FILE_USER_DATA, APP_SIZE, APP_RATIO, avgSize, FILE_USER_TOKEN } from './appConstants'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import Images from '@assets/images'
 import Shadow from 'react-native-shadow-creator'
 import { Header, AppText, SearchBar } from '../components'
 import { APP_COLORS, styles, appBorderRadius, APP_FONT_SIZES } from './theme'
 import DeviceInfo from 'react-native-device-info'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { dataProvider } from '../services/dataProvider'
+import { verify } from '../redux/actions/authAction'
 
 const Tab = createBottomTabNavigator()
 const Stack = createStackNavigator()
 
 
 const AppContainer = (props) => {
+  const dispatch = useDispatch()
   let isAuthenticated = useSelector(state => state.auth.isAuthenticated)
-  console.log(isAuthenticated)
   const getUser = async () => {
-    await Icon.loadFont()
+    // await Icon.loadFont()
+    let token = await AsyncStorage.getItem(FILE_USER_TOKEN)
+    if (token) {
+      try {
+        let res = await dataProvider('/user/verify',{
+          method: 'POST',
+        })
+        dispatch(verify({ user: res.data.info, token: res.data.token }))
+      } catch (error) {
+        AsyncStorage.setItem(FILE_USER_TOKEN, "")
+        AsyncStorage.setItem(FILE_USER_DATA, null)
+        dispatch(verify({ user: {}, token: null }))
+        console.log(error)
+      }
+    }
     let _user = await AsyncStorage.getItem(FILE_USER_DATA)
     setUser(_user)
   }
