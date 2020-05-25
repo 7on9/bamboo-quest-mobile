@@ -24,7 +24,7 @@ import Images from '@assets/images'
 import { useSelector } from 'react-redux'
 import DeviceInfo from 'react-native-device-info'
 
-const HomeScreenHeader = () => (
+const QuestScreenHeader = () => (
   <Header
     style={{
       height: headerHeight + APP_SIZE.heightWindow * 0.15 * 0.35,
@@ -56,7 +56,7 @@ const HomeScreenHeader = () => (
   </Header>
 )
 
-const _HomeScreen = ({ navigation }) => {
+const _QuestScreen = () => {
   const [publicQuests, setPublicQuests] = useState([])
   const [categories, setCategories] = useState([])
 
@@ -83,7 +83,7 @@ const _HomeScreen = ({ navigation }) => {
   }, [])
 
   return (
-    <BaseScreen header={HomeScreenHeader}>
+    <BaseScreen header={QuestScreenHeader}>
       <View style={{ flex: 1 }}>
         <ScrollView style={style.scrollView}>
           {/* Banner */}
@@ -96,39 +96,35 @@ const _HomeScreen = ({ navigation }) => {
               backgroundColor="#645DD7"
               icon={Images.library}
               title="Thử thách của bạn"
-              navigation={navigation}
-              />
-              )}
+            />
+          )}
           <ListQuestViewer
             listItems={publicQuests}
             backgroundColor="#1ea896"
             icon={Images.trending}
             title="Được yêu thích nhất"
-            navigation={navigation}
-            />
+          />
           <ListQuestViewer
             listItems={publicQuests}
             backgroundColor="#f85457"
             icon={Images.newStar}
             title="Thử thách mới"
-            navigation={navigation}
-            />
+          />
           <ListCategoryViewer
             listItems={categories}
             backgroundColor="#4C5454"
             icon={Images.newStar}
             title="Chủ đề"
-            navigation={navigation}
-            />
+          />
         </ScrollView>
       </View>
     </BaseScreen>
   )
 }
 
-export const HomeScreen = _HomeScreen
+export const QuestScreen = _QuestScreen
 
-const ListQuestViewer = ({ listItems, backgroundColor, title, icon, navigation }) => {
+const ListQuestViewer = ({ listItems, backgroundColor, title, icon }) => {
   return (
     <View
       style={{
@@ -163,12 +159,10 @@ const ListQuestViewer = ({ listItems, backgroundColor, title, icon, navigation }
           </AppTextBold>
         </View>
         <TouchableOpacity
-          onPress={() => { console.log('123'), navigation.navigate('Quest', { abc: 123 })}}
           style={{
             marginRight: APP_RATIO,
             paddingTop: APP_RATIO * 0.5,
           }}>
-    
           <AppTextBold
             style={{ fontSize: APP_FONT_SIZES.normal, color: '#fff' }}>
             Xem tất cả
@@ -256,7 +250,6 @@ const ListCategoryViewer = ({ listItems, backgroundColor, title, icon }) => {
           </AppTextBold>
         </View>
         <TouchableOpacity
-          onPress={() => { console.log('123'), navigation.navigate('Quest', { abc: 123 })}}
           style={{
             marginRight: APP_RATIO,
             paddingTop: APP_RATIO * 0.5,

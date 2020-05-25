@@ -171,7 +171,7 @@ const SettingNav = () => {
 
 const PlayNav = () => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Play" component={Screens.PlayScreen} />
       {/* <Stack.Screen name="SettingUser" component={SettingUserScreen}/> */}
     </Stack.Navigator>
@@ -185,6 +185,7 @@ const HomeNav = () => {
         headerShown: false
       }}>
       <Stack.Screen name="Home" component={Screens.HomeScreen} />
+      <Stack.Screen name="Quest" component={Screens.QuestScreen} />
     </Stack.Navigator>
   )
 }
