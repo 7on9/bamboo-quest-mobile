@@ -196,6 +196,7 @@ const ListQuestViewer = ({ listItems, backgroundColor, title, icon, navigation }
             let quest = item.item
             return (
               <QuestThumb
+                onPress={() => { navigation.navigate('Quest', { quest })}}
                 key={quest._id}
                 style={{
                   // width: APP_SIZE.widthWindow / 2,

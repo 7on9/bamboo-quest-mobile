@@ -9,6 +9,7 @@ export const APP_FONT_SIZES = {
   small:  APP_RATIO,
   normal:  APP_RATIO * 1.25,
   header:  APP_RATIO * 1.5,
+  large:  APP_RATIO * 2,
 }
 
 export const styles = StyleSheet.create({

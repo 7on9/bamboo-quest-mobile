@@ -96,7 +96,7 @@ const EntryScreen = () => {
                 backgroundColor: 'white',
                 height: APP_RATIO * 5,
                 width: (APP_SIZE.widthWindow * 1) / 2,
-                borderRadius: 3,
+                borderRadius: APP_RATIO/4,
                 // padding: APP_RATIO * 2,
                 textAlign: 'center',
                 fontSize: APP_FONT_SIZES.header,
@@ -128,7 +128,7 @@ const EntryScreen = () => {
                 backgroundColor: 'white',
                 height: APP_RATIO * 5,
                 width: (APP_SIZE.widthWindow * 1) / 2,
-                borderRadius: 3,
+                borderRadius: APP_RATIO/4,
                 // padding: APP_RATIO * 2,
                 textAlign: 'center',
                 fontSize: APP_FONT_SIZES.header,
@@ -158,12 +158,11 @@ const EntryScreen = () => {
                   backgroundColor: 'red', //'#ba2d0b',
                   height: APP_RATIO * 5,
                   width: (APP_SIZE.widthWindow * 1) / 2,
-                  borderRadius: 3,
-                  borderBottomWidth: 4,
+                  borderRadius: APP_RATIO/4,
+                  borderBottomWidth: APP_RATIO/3,
                   borderBottomColor: 'rgba(0,0,0,0.5)',
                   borderRightWidth: 4,
                   borderRightColor: 'rgba(0,0,0,0.5)',
-                  // padding: APP_RATIO * 2,
                   textAlign: 'center',
                   fontSize: APP_FONT_SIZES.header,
                 },
@@ -174,7 +173,7 @@ const EntryScreen = () => {
               <AppTextBold style={{ color: '#fff' }}>THAM GIA</AppTextBold>
             </TouchableOpacity>
           </View>
-        ) : null }
+        ) : null}
       </KeyboardAwareScrollView>
     </LinearGradient>
   )

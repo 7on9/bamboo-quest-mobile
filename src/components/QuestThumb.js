@@ -15,7 +15,8 @@ import { DEFAULT_DATE_FORMAT } from '../configs/appConstants'
       title: string,
       author: string,
       questions: Array
-    }
+    },
+    ...import('react-native').TouchableOpacityProps
   }} props
  */
 export const QuestThumb = (props) => {
@@ -23,6 +24,7 @@ export const QuestThumb = (props) => {
   const ratio = (height + width) / 100.0
   return (
     <TouchableOpacity
+      onPress={props.onPress}
       style={[
         styles.card,
         {
