@@ -5,7 +5,7 @@ import { styles } from '../configs/theme'
 
 export const AppButton = props => {
   return (
-      <TouchableOpacity {...props} style={[styles.card, { ...props.style, borderRadius: APP_RATIO/4, }]}>
+      <TouchableOpacity {...props} style={[styles.card, props.style,{ borderRadius: APP_RATIO/4 }, ]}>
         {props.children}
       </TouchableOpacity>
   )

@@ -192,7 +192,7 @@ const HomeNav = () => {
 
 const CreateQuestNav = () => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="CreateQuest" component={Screens.CreateQuestScreen} />
       <Stack.Screen
         name="CreateQuestionScreen"

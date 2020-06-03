@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Image,
   TextInput,
+  RefreshControl,
 } from 'react-native'
 import { QuestThumb } from '../../components/QuestThumb'
 import { APP_SIZE, APP_RATIO, headerHeight } from '../../configs/appConstants'
@@ -19,7 +20,13 @@ import {
 import { shadow } from 'react-native-shadow-creator/shadow'
 import { FlatList } from 'react-native-gesture-handler'
 import { dataProvider } from '../../services/dataProvider'
-import { AppTextBold, Header, SearchBar, BaseScreen, CategoryThumb } from '../../components'
+import {
+  AppTextBold,
+  Header,
+  SearchBar,
+  BaseScreen,
+  CategoryThumb,
+} from '../../components'
 import Images from '@assets/images'
 import { useSelector } from 'react-redux'
 import DeviceInfo from 'react-native-device-info'
@@ -59,67 +66,90 @@ const HomeScreenHeader = () => (
 const _HomeScreen = ({ navigation }) => {
   const [publicQuests, setPublicQuests] = useState([])
   const [categories, setCategories] = useState([])
+  const [myQuest, setMyQuest] = useState([])
+
+  const getMyQuest = async () => {
+    setMyQuest([])
+    let res = await dataProvider('/quest/my-quests')
+    setMyQuest(res && res.data ? res.data : [])
+  }
 
   const getQuest = async () => {
-    let res = await dataProvider('/quest/?limit=10&skip=0')
+    setPublicQuests([])
+    let res = await dataProvider('/quest/?limit=5&skip=0')
     setPublicQuests(res && res.data ? res.data : [])
   }
-  
+
   const getCategory = async () => {
-    let res = await dataProvider('/category/?limit=10&skip=0')
+    setCategories([])
+    let res = await dataProvider('/category/?limit=5&skip=0')
     setCategories(res && res.data ? res.data : [])
   }
 
   const { user, isAuthenticated } = useSelector((state) => state.auth)
-  console.log(user)
+  
   useEffect(() => {
-    if (publicQuests.length) return
-    getQuest()
-  }, [])
+    if (!publicQuests.length) {
+      getQuest()
+    }
+    if (!categories.length) {
+      getCategory()
+    }
+    if (isAuthenticated && !myQuest.length) {
+      getMyQuest()
+    }
+  }, [isAuthenticated])
 
-  useEffect(() => {
-    if (categories.length) return
-    getCategory()
-  }, [])
+  const [refreshing, setRefreshing] = React.useState(false)
+
+  const onRefresh = React.useCallback(async() => {
+    setRefreshing(true)
+    await Promise.all([getQuest(), getMyQuest(), getCategory()])
+    setRefreshing(false)
+  }, [refreshing])
 
   return (
     <BaseScreen header={HomeScreenHeader}>
       <View style={{ flex: 1 }}>
-        <ScrollView style={style.scrollView}>
+        <ScrollView
+          style={style.scrollView}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }>
           {/* Banner */}
           {/* <View style={[styles.card, { height: APP_SIZE.heightWindow * 0.075, margin: APP_RATIO, flexDirection: 'row' }]}>
               </View> */}
           {/* ListQuests */}
           {isAuthenticated && (
             <ListQuestViewer
-              listItems={publicQuests}
+              listItems={myQuest}
               backgroundColor="#645DD7"
               icon={Images.library}
               title="Thử thách của bạn"
               navigation={navigation}
-              />
-              )}
+            />
+          )}
           <ListQuestViewer
             listItems={publicQuests}
             backgroundColor="#1ea896"
             icon={Images.trending}
             title="Được yêu thích nhất"
             navigation={navigation}
-            />
+          />
           <ListQuestViewer
             listItems={publicQuests}
             backgroundColor="#f85457"
             icon={Images.newStar}
             title="Thử thách mới"
             navigation={navigation}
-            />
+          />
           <ListCategoryViewer
             listItems={categories}
             backgroundColor="#4C5454"
             icon={Images.newStar}
             title="Chủ đề"
             navigation={navigation}
-            />
+          />
         </ScrollView>
       </View>
     </BaseScreen>
@@ -128,7 +158,13 @@ const _HomeScreen = ({ navigation }) => {
 
 export const HomeScreen = _HomeScreen
 
-const ListQuestViewer = ({ listItems, backgroundColor, title, icon, navigation }) => {
+const ListQuestViewer = ({
+  listItems,
+  backgroundColor,
+  title,
+  icon,
+  navigation,
+}) => {
   return (
     <View
       style={{
@@ -163,12 +199,12 @@ const ListQuestViewer = ({ listItems, backgroundColor, title, icon, navigation }
           </AppTextBold>
         </View>
         <TouchableOpacity
-          onPress={() => { console.log('123'), navigation.navigate('Quest', { abc: 123 })}}
+          onPress={() => { navigation.navigate('Quest', { abc: 123 })
+          }}
           style={{
             marginRight: APP_RATIO,
             paddingTop: APP_RATIO * 0.5,
           }}>
-    
           <AppTextBold
             style={{ fontSize: APP_FONT_SIZES.normal, color: '#fff' }}>
             Xem tất cả
@@ -196,7 +232,9 @@ const ListQuestViewer = ({ listItems, backgroundColor, title, icon, navigation }
             let quest = item.item
             return (
               <QuestThumb
-                onPress={() => { navigation.navigate('Quest', { quest })}}
+                onPress={() => {
+                  navigation.navigate('Quest', { quest })
+                }}
                 key={quest._id}
                 style={{
                   // width: APP_SIZE.widthWindow / 2,
@@ -257,7 +295,9 @@ const ListCategoryViewer = ({ listItems, backgroundColor, title, icon }) => {
           </AppTextBold>
         </View>
         <TouchableOpacity
-          onPress={() => { console.log('123'), navigation.navigate('Quest', { abc: 123 })}}
+          onPress={() => {
+            console.log('123'), navigation.navigate('Quest', { abc: 123 })
+          }}
           style={{
             marginRight: APP_RATIO,
             paddingTop: APP_RATIO * 0.5,

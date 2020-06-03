@@ -38,6 +38,7 @@ const LocaleProvider = (props) => {
 }
 
 const App = () => {
+  console.disableYellowBox = true;
   return (
     <Provider store={storeConfig()}> 
       <View style={{ flex: 1,}}>
