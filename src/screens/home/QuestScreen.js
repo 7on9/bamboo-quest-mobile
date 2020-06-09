@@ -11,7 +11,7 @@ import { APP_SIZE, APP_RATIO, headerHeight } from '../../configs/appConstants'
 import { styles, APP_COLORS, APP_FONT_SIZES } from '../../configs/theme'
 import { shadow } from 'react-native-shadow-creator/shadow'
 import { dataProvider } from '../../services/dataProvider'
-import { AppTextBold, Header, BaseScreen, AppText } from '../../components'
+import { AppTextBold, Header, BaseScreen, AppText, AppHeader } from '../../components'
 import _ from 'lodash'
 import Images from '@assets/images'
 import { useSelector } from 'react-redux'
@@ -19,54 +19,6 @@ import DeviceInfo from 'react-native-device-info'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import { useNavigation } from '@react-navigation/native'
 import { formatNumber } from '../../utils/text'
-
-const QuestScreenHeader = ({ title }) => {
-  const navigation = useNavigation()
-  return (
-    <Header
-      style={{
-        height: headerHeight,
-        paddingBottom: APP_RATIO / 2,
-        // opacity: 0.5,
-      }}
-      backgroundColor={APP_COLORS.main}>
-      <View
-        style={([styles.center, styles.container], { flexDirection: 'row' })}>
-        <TouchableOpacity
-          onPress={() => navigation.goBack()}
-          style={{
-            justifyContent: 'flex-end',
-            height: '100%',
-            alignItems: 'center',
-            flex: 1,
-            // backgroundColor: 'blue'
-          }}>
-          <Icon name="chevron-left" color="#fff" size={24} />
-        </TouchableOpacity>
-        <View
-          style={{
-            flex: 9,
-            marginTop: DeviceInfo.hasNotch() ? APP_SIZE.statusBarHeight : 0,
-            justifyContent: 'flex-end',
-            alignItems: 'center',
-            paddingRight: APP_SIZE.widthWindow / 9,
-          }}>
-          <Text
-            numberOfLines={1}
-            style={{
-              fontSize: APP_FONT_SIZES.header,
-              fontFamily: 'OpenSans-Bold',
-              color: '#fff',
-              width: APP_SIZE.widthWindow / 1.5,
-              textAlign: 'center',
-            }}>
-            {title || 'Bamboo Quest'}
-          </Text>
-        </View>
-      </View>
-    </Header>
-  )
-}
 
 const _QuestScreen = (props) => {
   const [quest, setQuest] = useState(props.route.params.quest)
@@ -102,7 +54,7 @@ const _QuestScreen = (props) => {
 
   return (
     quest && (
-      <BaseScreen header={() => QuestScreenHeader({ title: quest.title })}>
+      <BaseScreen header={() => <AppHeader hasBackButton={true} title={quest.title }/>}>
         <View style={{ flex: 1 }}>
           <ScrollView
             style={style.scrollView}

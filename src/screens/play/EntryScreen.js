@@ -6,40 +6,28 @@ import { styles, APP_FONT_SIZES, APP_COLORS } from '../../configs/theme'
 import { shadow } from 'react-native-shadow-creator/shadow'
 import Images from '@assets/images'
 import { APP_SIZE, APP_RATIO } from '../../configs/appConstants'
-import { Input, AppTextBold } from '../../components'
-import { useSelector } from 'react-redux'
+import { Input, AppTextBold, AppText } from '../../components'
+import { useSelector, useDispatch } from 'react-redux'
+import { resetError } from '../../redux/actions/authAction'
+import { GAME_TYPES } from '../../configs/socketConstants'
 
-const EntryScreen = () => {
+const EntryScreen = ({ socket, socketState, error }) => {
   const [form, setForm] = useState({
     gameCode: '',
     username: '',
   })
-
+  const dispatch = useDispatch()
+  
   const onType = (field, value) => {
     setForm({ ...form, [field]: value })
   }
 
-  const [error, setError] = useState(null)
-  const { errorMessage } = useSelector((state) => state.auth)
+  const joinGame = () => {
+    let { gameCode, username } = form
+    socket.emit(GAME_TYPES.GAME.JOIN, gameCode, username, null)
+  }
 
-  useEffect(() => {
-    if (error) {
-      setTimeout(() => {
-        setError(null)
-      }, 3000)
-    }
-  }, [error])
-
-  useEffect(() => {
-    if (!errorMessage) {
-      return
-    }
-    setError(errorMessage)
-    setTimeout(() => {
-      dispatch(resetError())
-    }, 1000)
-  }, [errorMessage])
-
+  console.log('=========entry==========', socketState)
   return (
     <LinearGradient
       colors={['#2AF598', '#08AEEA']}
@@ -72,16 +60,10 @@ const EntryScreen = () => {
             }}
           />
         </View>
-        {/* <View style={{ marginBottom: APP_RATIO }}>
-            <AppTextBold style={{ fontSize: APP_RATIO * 3 }}>
-              Đăng nhập
-            </AppTextBold>
-          </View> */}
         <View
           style={[
             styles.center,
             {
-              // flex: 4,
               marginVertical: APP_RATIO / 2,
               width: APP_SIZE.widthWindow - APP_RATIO * 2,
             },
@@ -96,7 +78,7 @@ const EntryScreen = () => {
                 backgroundColor: 'white',
                 height: APP_RATIO * 5,
                 width: (APP_SIZE.widthWindow * 1) / 2,
-                borderRadius: APP_RATIO/4,
+                borderRadius: APP_RATIO / 4,
                 // padding: APP_RATIO * 2,
                 textAlign: 'center',
                 fontSize: APP_FONT_SIZES.header,
@@ -128,7 +110,7 @@ const EntryScreen = () => {
                 backgroundColor: 'white',
                 height: APP_RATIO * 5,
                 width: (APP_SIZE.widthWindow * 1) / 2,
-                borderRadius: APP_RATIO/4,
+                borderRadius: APP_RATIO / 4,
                 // padding: APP_RATIO * 2,
                 textAlign: 'center',
                 fontSize: APP_FONT_SIZES.header,
@@ -141,6 +123,7 @@ const EntryScreen = () => {
             maxLength={20}
             numberOfLines={1}
           />
+          <AppText style={{ color: 'red' }}>{error}</AppText>
         </View>
         {form.gameCode.length && form.username.length ? (
           <View
@@ -153,13 +136,14 @@ const EntryScreen = () => {
               },
             ]}>
             <TouchableOpacity
+              onPress={joinGame}
               style={[
                 {
-                  backgroundColor: 'red', //'#ba2d0b',
+                  backgroundColor: '#e67e22', //'#ba2d0b',
                   height: APP_RATIO * 5,
                   width: (APP_SIZE.widthWindow * 1) / 2,
-                  borderRadius: APP_RATIO/4,
-                  borderBottomWidth: APP_RATIO/3,
+                  borderRadius: APP_RATIO / 4,
+                  borderBottomWidth: APP_RATIO / 3,
                   borderBottomColor: 'rgba(0,0,0,0.5)',
                   borderRightWidth: 4,
                   borderRightColor: 'rgba(0,0,0,0.5)',

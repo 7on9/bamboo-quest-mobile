@@ -159,61 +159,6 @@ const CreateQuest = () => {
         modalVisible={modalVisible}
         onAddQuestion={onAddQuestion}
       />
-      {/* <AppModal
-        animationType="fade"
-        transparent={true}
-        visible={modalVisible}
-        // onRequestClose={() => { Alert.alert('Modal has been closed.')}}
-        >
-        <View
-          style={[
-            styles.center,
-            styles.card,
-            {
-              height: 'auto',
-              width: APP_SIZE.widthWindow - APP_RATIO * 2,
-              padding: APP_RATIO,
-              backgroundColor: '#fff',
-            },
-          ]}>
-          <View style={styles.modalView}>
-            <AppTextBold style={{ fontSize: APP_FONT_SIZES.header}}>Tạo câu hỏi</AppTextBold>
-          </View>
-          <View style={{ width: '100%', flexDirection: 'row'}}>
-            <TouchableOpacity
-              style={[styles.center, {
-                ...styles.openButton,
-                backgroundColor: '#f0f0f0f0',
-                height: APP_RATIO * 5,
-                borderRadius: APP_RATIO/4,
-                flex: 1,
-                marginRight: APP_RATIO/2
-                // margin: APP_RATIO
-              }]}
-              onPress={() => {
-                setModalVisible(!modalVisible)
-              }}>
-              <AppTextBold style={{ color: 'gray' }}>Hủy</AppTextBold>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.center, {
-                ...styles.openButton,
-                backgroundColor: APP_COLORS.main,
-                height: APP_RATIO * 5,
-                borderRadius: APP_RATIO/4,
-                flex: 1,
-                marginLeft: APP_RATIO/2
-                // margin: APP_RATIO
-              }]}
-              onPress={() => {
-                setModalVisible(!modalVisible)
-              }}>
-              <AppTextBold style={{ color: '#fff' }}>Tạo câu hỏi</AppTextBold>
-            </TouchableOpacity>
-          </View>
-        </View>
-     
-      </AppModal> */}
 
       <ScrollView
         style={style.scrollView}
@@ -362,12 +307,12 @@ const CreateQuest = () => {
             {
               backgroundColor: 'green',
               height: APP_RATIO * 3.5,
-              width: APP_RATIO * 7,
+              width: APP_RATIO * 10,
               borderRadius: APP_RATIO / 4,
               marginLeft: APP_RATIO / 2,
             },
           ]}>
-          <AppTextBold style={{ color: '#fff' }}>Tạo phòng</AppTextBold>
+          <AppTextBold style={{ color: '#fff' }}>Tạo thử thách</AppTextBold>
         </TouchableOpacity>
       </View>
     </View>
