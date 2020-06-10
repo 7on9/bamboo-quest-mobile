@@ -11,6 +11,9 @@ const Images = {
   rank3: require('./rank-3.png'),
   logo: require('./logo.png'),
   fullLogo: require('./full-logo.png'),
+  first: require('./first.png'),
+  second: require('./second.png'),
+  third: require('./third.png'),
 }
 
 export default Images

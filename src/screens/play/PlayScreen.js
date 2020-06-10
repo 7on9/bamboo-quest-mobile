@@ -6,6 +6,7 @@ import { socketClient } from './socket'
 import { GAME_TYPES } from '../../configs/socketConstants'
 import { WelcomeScreen, PlayGameScreen, ResultScreen } from './client'
 import { useSocket } from './socket'
+import { RankScreen } from './RankScreen'
 
 const GAME = GAME_TYPES.GAME
 const STATUS = GAME_TYPES.STATUS
@@ -23,8 +24,9 @@ export const PlayScreen = () => {
   return (
     store.game && store.game.idGame 
       ? <WelcomeScreen socket={socket} socketState={store} error={error}/>
+      : <RankScreen socket={socket} socketState={store} error={error}/>
       // : <ResultScreen socket={socket} socketState={store} error={error}/>
-      : <PlayGameScreen socket={socket} socketState={store} error={error}/>
+      // : <PlayGameScreen socket={socket} socketState={store} error={error}/>
       // : <EntryScreen socket={socket} socketState={store} error={error}/>
   )
 }
