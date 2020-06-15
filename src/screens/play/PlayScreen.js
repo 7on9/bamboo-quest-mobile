@@ -12,21 +12,39 @@ const GAME = GAME_TYPES.GAME
 const STATUS = GAME_TYPES.STATUS
 
 export const PlayScreen = () => {
-  const { socket, store, error } = useSocket()
+  const { socket, store, error, actions } = useSocket()
+  const {
+    game,
+    running,
+    players,
+    idQuestion,
+    correct,
+    endGame,
+    inGame,
+    newQuestion,
+    result,
+    timeout,
+    started,
+    scoreBoard,
+  } = store
 
-  try {
-    console.log('-----aaa-------', store)
-    console.log('-----sss-------',store.game.idGame)
-    
-  } catch (error) {
-    
-  }
-  return (
-    store.game && store.game.idGame 
-      ? <WelcomeScreen socket={socket} socketState={store} error={error}/>
-      : <RankScreen socket={socket} socketState={store} error={error}/>
-      // : <ResultScreen socket={socket} socketState={store} error={error}/>
-      // : <PlayGameScreen socket={socket} socketState={store} error={error}/>
-      // : <EntryScreen socket={socket} socketState={store} error={error}/>
+  const { joinGame, answer, } = actions
+  return scoreBoard ? (
+    <RankScreen socketState={store} />
+    ) : !inGame ? (
+      // <PlayGameScreen socket={socket} socketState={store} error={error}/>
+    <EntryScreen socket={socket} socketState={store} error={error} />
+  ) : !started ? (
+    <WelcomeScreen socket={socket} socketState={store} error={error} />
+  ) : !timeout ? (
+    <PlayGameScreen answer={answer} socketState={store} />
+  ) : (
+    <ResultScreen correct={correct} />
   )
+  //   <WelcomeScreen socket={socket} socketState={store} error={error} />
+  // ) : (
+  //   // :
+  //   // : <ResultScreen socket={socket} socketState={store} error={error}/>
+  //   <EntryScreen socket={socket} socketState={store} error={error} />
+  // )
 }

@@ -1,7 +1,8 @@
 import io from 'socket.io-client'
 import React from 'react'
-import { SOCKET_URL } from '../../configs/appConstants'
+import { SOCKET_URL, FILE_USER_TOKEN } from '../../configs/appConstants'
 import { GAME_TYPES } from '../../configs/socketConstants'
+import AsyncStorage from '@react-native-community/async-storage'
 
 /**
  * @returns {SocketIOClient.Socket}
@@ -14,26 +15,31 @@ export const socketClient = async () => {
 
 const { GAME } = GAME_TYPES
 
+const initialState = {
+  running: false,
+  players: [],
+  idQuestion: -1,
+  correct: 0,
+  endGame: true,
+  inGame: false,
+  newQuestion: null,
+  timeout: true,
+  scoreBoard: false,
+  started: false,
+}
+
 export const useSocket = () => {
   const [temp, setTemp] = React.useState(0)
   const [isConnected, setConnected] = React.useState(false)
   const [error, setError] = React.useState(null)
   const [socket, setSocket] = React.useState(null)
   const [tik, setTik] = React.useState(0)
-  const [store, setStore] = React.useState({
-    running: false,
-    players: [],
-    idQuestion: -1,
-    correct: 0,
-    endGame: true,
-    inGame: false,
-    newQuestion: null
-  })
+  const [store, setStore] = React.useState(initialState)
   
   
   const socketReducer = async ({ type, payload }) => {
     console.log('==============type:', type)
-    console.log('==============payload:', store)
+    console.log('==============payload:', payload)
     let newState = store
   
     switch (type) {
@@ -45,13 +51,16 @@ export const useSocket = () => {
       case GAME.BEGIN:
       case GAME.ANSWER:
       case GAME.SCOREBOARD:
-      case GAME.NEW_QUESTION:
         newState = { ...newState, ...payload }
+        break
+      case GAME.NEW_QUESTION:
+        newState = { ...newState, started: true, showResult: false, ...payload }
         break
       case GAME.END:
         newState = {
           ...newState,
           ...payload,
+          scoreBoard: true,
           idQuestion: -1,
           correct: 0,
           endGame: true,
@@ -68,7 +77,7 @@ export const useSocket = () => {
         break
       case GAME.RESET_STATUS:
         newState = {
-          ...newState,
+          ...initialState,
           result: false,
         }
       default:
@@ -85,6 +94,7 @@ export const useSocket = () => {
         socketReducer({
           type: GAME.JOIN,
           payload: {
+            inGame: true,
             game: {
               status,
               username,
@@ -177,6 +187,21 @@ export const useSocket = () => {
     let sk = await socketClient()
     setSocket(sk)
   }
+
+  const actions = {
+    joinGame: (code, username) => {
+      socket.emit(
+        GAME.JOIN,
+        code,
+        username,
+        AsyncStorage.getItem(FILE_USER_TOKEN)
+      )
+    },
+    answer: (idGame, idQuestion, answer) => {
+      socket.emit(GAME.ANSWER, idGame, idQuestion, answer)
+    }
+  }
+
   React.useEffect(() => {
     if (!socket) {
       getSocket()
@@ -196,5 +221,5 @@ export const useSocket = () => {
     configSocket(socket, store)
   }, [socket, tik])
 
-  return { socket, error, store }
+  return { socket, error, store, actions }
 }

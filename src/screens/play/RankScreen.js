@@ -6,7 +6,7 @@ import { APP_SIZE, APP_RATIO } from '../../configs/appConstants'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import Images from '@assets/images'
 
-const Player = (props) => {
+const Player = ({ idx, player }) => {
   return (
     <View
       style={[
@@ -20,10 +20,10 @@ const Player = (props) => {
         },
       ]}>
       <View style={[styles.center, { flex: 1 }]}>
-        <AppTextBold numberOfLines={1}>1</AppTextBold>
+        <AppTextBold numberOfLines={1}>{idx + 1}</AppTextBold>
       </View>
       <View style={{ flex: 4, justifyContent: 'center' }}>
-        <AppTextBold numberOfLines={1}>Tên dkjandk</AppTextBold>
+        <AppTextBold numberOfLines={1}>{player.username}</AppTextBold>
       </View>
       <View style={[styles.center, { flex: 5, flexDirection: 'row' }]}>
         <View style={[styles.center, { height: '100%' }]}>
@@ -38,7 +38,7 @@ const Player = (props) => {
             styles.center,
             { flex: 1, height: '100%', alignItems: 'flex-start' },
           ]}>
-          <AppTextBold> 100 </AppTextBold>
+          <AppTextBold> {player.score} </AppTextBold>
         </View>
         <View style={[styles.center, { height: '100%' }]}>
           <Icon
@@ -52,15 +52,21 @@ const Player = (props) => {
             styles.center,
             { flex: 1, height: '100%', alignItems: 'flex-start' },
           ]}>
-          <AppTextBold> 199.44 </AppTextBold>
+          <AppTextBold> {player.time} </AppTextBold>
         </View>
       </View>
     </View>
   )
 }
-export const RankScreen = (props) => {
-  // const { players } = props
-  const players = [1, 2, 3, 4, 5]
+
+const ranks = [Images.first, Images.second, Images.third]
+
+export const RankScreen = ({ socketState }) => {
+  let { players } = socketState
+  players.sort((pA, pB) => pB.score - pA.score || pA.time - pB.time)
+  const thisPlayer = players.findIndex(
+    (p) => p.username == socketState.game.username
+  )
   return (
     <BaseScreen header={() => <AppHeader title="Trò chơi kết thúc" />}>
       <View
@@ -72,21 +78,49 @@ export const RankScreen = (props) => {
             justifyContent: 'space-evenly',
           },
         ]}>
-        <AppTextBold style={{ fontSize: APP_FONT_SIZES.normal, color: '#413735'}}>Chúc mừng bạn đã hoàn thành phần chơi</AppTextBold>
-        <AppTextBold style={{ fontSize: APP_FONT_SIZES.normal, color: '#413735'}}>Và đạt vị trí</AppTextBold>
-        <View style={{ height: APP_SIZE.heightScreen * 0.1, width: APP_SIZE.heightScreen * 0.1 }}>
-          <View style={[styles.center, { flex: 1, borderRadius: APP_SIZE.heightScreen * 0.05, borderWidth: APP_RATIO/2, borderColor: 'silver' }]}>
-            <AppTextBold style={{ fontSize: APP_RATIO * 5, lineHeight: APP_SIZE.heightScreen * 0.09 , alignContent: 'center', color: 'gray' }}>
-              5
-            </AppTextBold>
-          </View>
-          {/* <Image
-            source={Images.first}
-            style={{
-              height: APP_SIZE.heightScreen * 0.1,
-              width: APP_SIZE.heightScreen * 0.1,
-            }}
-          /> */}
+        <AppTextBold
+          style={{ fontSize: APP_FONT_SIZES.large, color: '#413735' }}>
+          Bạn đã hoàn thành phần chơi
+        </AppTextBold>
+        <AppTextBold
+          style={{ fontSize: APP_FONT_SIZES.large, color: '#413735' }}>
+          Và đạt vị trí
+        </AppTextBold>
+        <View
+          style={{
+            height: APP_SIZE.heightScreen * 0.1,
+            width: APP_SIZE.heightScreen * 0.1,
+          }}>
+          {thisPlayer < ranks.length ? (
+            <Image
+              source={ranks[thisPlayer]}
+              style={{
+                height: APP_SIZE.heightScreen * 0.1,
+                width: APP_SIZE.heightScreen * 0.1,
+              }}
+            />
+          ) : (
+            <View
+              style={[
+                styles.center,
+                {
+                  flex: 1,
+                  borderRadius: APP_SIZE.heightScreen * 0.05,
+                  borderWidth: APP_RATIO / 2,
+                  borderColor: 'silver',
+                },
+              ]}>
+              <AppTextBold
+                style={{
+                  fontSize: APP_RATIO * 5,
+                  lineHeight: APP_SIZE.heightScreen * 0.09,
+                  alignContent: 'center',
+                  color: 'gray',
+                }}>
+                {thisPlayer + 1}
+              </AppTextBold>
+            </View>
+          )}
         </View>
         <View
           style={[
@@ -105,7 +139,10 @@ export const RankScreen = (props) => {
               styles.center,
               { flex: 1, height: '100%', alignItems: 'flex-start' },
             ]}>
-            <AppTextBold style={{ fontSize: APP_FONT_SIZES.header }}> 100 </AppTextBold>
+            <AppTextBold style={{ fontSize: APP_FONT_SIZES.header }}>
+              {' '}
+              {players[thisPlayer].score}{' '}
+            </AppTextBold>
           </View>
           <View style={[styles.center, { height: '100%', flex: 1 }]}>
             <Icon
@@ -119,7 +156,10 @@ export const RankScreen = (props) => {
               styles.center,
               { flex: 1, height: '100%', alignItems: 'flex-start' },
             ]}>
-            <AppTextBold style={{ fontSize: APP_FONT_SIZES.header }}> 199.44 </AppTextBold>
+            <AppTextBold style={{ fontSize: APP_FONT_SIZES.header }}>
+              {' '}
+              {players[thisPlayer].time}{' '}
+            </AppTextBold>
           </View>
         </View>
       </View>
@@ -129,7 +169,7 @@ export const RankScreen = (props) => {
       <ScrollView style={{ flex: 1 }} contentContainerStyle={[styles.center]}>
         {players &&
           players.length &&
-          players.map((player) => <Player player />)}
+          players.map((player, idx) => <Player idx={idx} player={player} />)}
       </ScrollView>
       <View
         style={{
