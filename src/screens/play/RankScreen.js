@@ -5,6 +5,7 @@ import { APP_COLORS, styles, APP_FONT_SIZES } from '../../configs/theme'
 import { APP_SIZE, APP_RATIO } from '../../configs/appConstants'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import Images from '@assets/images'
+import { useNavigation } from '@react-navigation/native'
 
 const Player = ({ idx, player }) => {
   return (
@@ -62,6 +63,7 @@ const Player = ({ idx, player }) => {
 const ranks = [Images.first, Images.second, Images.third]
 
 export const RankScreen = ({ socketState }) => {
+  const navigation = useNavigation()
   let { players } = socketState
   players.sort((pA, pB) => pB.score - pA.score || pA.time - pB.time)
   const thisPlayer = players.findIndex(
@@ -74,7 +76,7 @@ export const RankScreen = ({ socketState }) => {
           styles.center,
           {
             width: '100%',
-            height: APP_SIZE.heightWindow * 0.4,
+            height: APP_SIZE.heightWindow * 0.35,
             justifyContent: 'space-evenly',
           },
         ]}>
@@ -180,6 +182,7 @@ export const RankScreen = ({ socketState }) => {
           margin: APP_RATIO / 2,
         }}>
         <TouchableOpacity
+          // onPress={() => navigation.navigate('')}
           style={[
             styles.center,
             styles.card,
