@@ -15,12 +15,16 @@ import DeviceInfo from 'react-native-device-info'
 import { useSelector, useDispatch } from 'react-redux'
 import { dataProvider } from '../services/dataProvider'
 import { verify } from '../redux/actions/authAction'
+import SplashScreen from 'react-native-splash-screen'
 
 const Tab = createBottomTabNavigator()
 const Stack = createStackNavigator()
 
 
 const AppContainer = (props) => {
+  useEffect(() => {
+    SplashScreen.hide()
+  }, [])
   const dispatch = useDispatch()
   let isAuthenticated = useSelector(state => state.auth.isAuthenticated)
   const getUser = async () => {

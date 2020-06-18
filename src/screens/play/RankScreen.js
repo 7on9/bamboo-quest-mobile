@@ -53,7 +53,7 @@ const Player = ({ idx, player }) => {
             styles.center,
             { flex: 1, height: '100%', alignItems: 'flex-start' },
           ]}>
-          <AppTextBold> {player.time} </AppTextBold>
+          <AppTextBold> {player.time.toFixed(2)} </AppTextBold>
         </View>
       </View>
     </View>
@@ -160,7 +160,7 @@ export const RankScreen = ({ socketState }) => {
             ]}>
             <AppTextBold style={{ fontSize: APP_FONT_SIZES.header }}>
               {' '}
-              {players[thisPlayer].time}{' '}
+              {players[thisPlayer].time.toFixed(2)}{' '}
             </AppTextBold>
           </View>
         </View>

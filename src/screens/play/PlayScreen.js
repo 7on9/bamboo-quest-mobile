@@ -32,7 +32,6 @@ export const PlayScreen = () => {
   return scoreBoard ? (
     <RankScreen socketState={store} />
     ) : !inGame ? (
-      // <PlayGameScreen socket={socket} socketState={store} error={error}/>
     <EntryScreen socket={socket} socketState={store} error={error} />
   ) : !started ? (
     <WelcomeScreen socket={socket} socketState={store} error={error} />
@@ -41,10 +40,4 @@ export const PlayScreen = () => {
   ) : (
     <ResultScreen correct={correct} />
   )
-  //   <WelcomeScreen socket={socket} socketState={store} error={error} />
-  // ) : (
-  //   // :
-  //   // : <ResultScreen socket={socket} socketState={store} error={error}/>
-  //   <EntryScreen socket={socket} socketState={store} error={error} />
-  // )
 }

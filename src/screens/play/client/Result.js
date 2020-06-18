@@ -12,11 +12,11 @@ export const ResultScreen = (props) => {
       <View
         style={[
           styles.center,
-          { backgroundColor: correct ? '#138402' : '#ad1d1d', flex: 1 },
+          { backgroundColor: correct >= 0 ? '#138402' : '#ad1d1d', flex: 1 },
         ]}>
         <View>
           <Icon
-            name={correct ? 'laugh' : 'sad-tear'}
+            name={correct >= 0 ? 'laugh' : 'sad-tear'}
             size={APP_SIZE.widthScreen * 0.5}
             color="#fff"
           />
@@ -24,7 +24,7 @@ export const ResultScreen = (props) => {
         <View style={{ marginTop: APP_RATIO }}>
           <AppTextBold
             style={{ fontSize: APP_FONT_SIZES.xLarge, color: '#fff' }}>
-            {correct ? 'Đúng rồi' : 'Sai rồi'}
+            {correct >= 0 ? 'Đúng rồi' : 'Sai rồi'}
           </AppTextBold>
         </View>
       </View>

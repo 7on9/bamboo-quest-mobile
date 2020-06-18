@@ -17,7 +17,7 @@ const EntryScreen = ({ socket, socketState, error }) => {
     username: '',
   })
   const dispatch = useDispatch()
-  
+
   const onType = (field, value) => {
     setForm({ ...form, [field]: value })
   }
@@ -71,26 +71,30 @@ const EntryScreen = ({ socket, socketState, error }) => {
           <AppTextBold style={{ paddingBottom: APP_RATIO, color: '#fff' }}>
             Mã phòng
           </AppTextBold>
-
-          <TextInput
+          <View
             style={[
-              {
-                backgroundColor: 'white',
-                height: APP_RATIO * 5,
-                width: (APP_SIZE.widthWindow * 1) / 2,
-                borderRadius: APP_RATIO / 4,
-                // padding: APP_RATIO * 2,
-                textAlign: 'center',
-                fontSize: APP_FONT_SIZES.header,
-              },
+              { backgroundColor: '#fff', borderRadius: APP_RATIO / 4 },
               shadow(6),
-            ]}
-            textAlignVertical="center"
-            onChangeText={(e) => onType('gameCode', e)}
-            returnKeyType="next"
-            maxLength={20}
-            numberOfLines={1}
-          />
+            ]}>
+            <TextInput
+              style={[
+                {
+                  height: APP_RATIO * 5,
+                  width: (APP_SIZE.widthWindow * 1) / 2,
+                  borderRadius: APP_RATIO / 4,
+                  color: APP_COLORS.text.dark,
+                  // padding: APP_RATIO * 2,
+                  textAlign: 'center',
+                  fontSize: APP_FONT_SIZES.header,
+                },
+              ]}
+              textAlignVertical="center"
+              onChangeText={(e) => onType('gameCode', e)}
+              returnKeyType="next"
+              maxLength={20}
+              numberOfLines={1}
+            />
+          </View>
         </View>
         <View
           style={[
@@ -104,25 +108,30 @@ const EntryScreen = ({ socket, socketState, error }) => {
           <AppTextBold style={{ paddingBottom: APP_RATIO, color: '#fff' }}>
             Tên người chơi
           </AppTextBold>
-          <TextInput
+          <View
             style={[
-              {
-                backgroundColor: 'white',
-                height: APP_RATIO * 5,
-                width: (APP_SIZE.widthWindow * 1) / 2,
-                borderRadius: APP_RATIO / 4,
-                // padding: APP_RATIO * 2,
-                textAlign: 'center',
-                fontSize: APP_FONT_SIZES.header,
-              },
+              { backgroundColor: '#fff', borderRadius: APP_RATIO / 4 },
               shadow(6),
-            ]}
-            textAlignVertical="center"
-            onChangeText={(e) => onType('username', e)}
-            returnKeyType="next"
-            maxLength={20}
-            numberOfLines={1}
-          />
+            ]}>
+            <TextInput
+              style={[
+                {
+                  height: APP_RATIO * 5,
+                  width: (APP_SIZE.widthWindow * 1) / 2,
+                  borderRadius: APP_RATIO / 4,
+                  // padding: APP_RATIO * 2,
+                  color: APP_COLORS.text.dark,
+                  textAlign: 'center',
+                  fontSize: APP_FONT_SIZES.header,
+                },
+              ]}
+              textAlignVertical="center"
+              onChangeText={(e) => onType('username', e)}
+              returnKeyType="next"
+              maxLength={20}
+              numberOfLines={1}
+            />
+          </View>
           <AppText style={{ color: 'red' }}>{error}</AppText>
         </View>
         {form.gameCode.length && form.username.length ? (
