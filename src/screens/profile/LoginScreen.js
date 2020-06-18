@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { StyleSheet, Text, View, Image } from 'react-native'
+import { StyleSheet, Text, View, Image, StatusBar } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
 import { styles, APP_FONT_SIZES } from '../../configs/theme'
 import Images from '@assets/images'

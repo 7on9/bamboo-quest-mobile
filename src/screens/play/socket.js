@@ -9,7 +9,6 @@ import AsyncStorage from '@react-native-community/async-storage'
  */
 export const socketClient = async () => {
   const socket = io(SOCKET_URL)
-  // await configSocket(socket)
   return socket
 }
 
@@ -29,7 +28,6 @@ const initialState = {
 }
 
 export const useSocket = () => {
-  const [temp, setTemp] = React.useState(0)
   const [isConnected, setConnected] = React.useState(false)
   const [error, setError] = React.useState(null)
   const [socket, setSocket] = React.useState(null)

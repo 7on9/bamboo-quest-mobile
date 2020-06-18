@@ -3,6 +3,8 @@ import {
   Text,
   View,
   TouchableOpacity,
+  StatusBar,
+  Platform,
 } from 'react-native'
 import { APP_SIZE, APP_RATIO, headerHeight } from '../configs/appConstants'
 import { styles, APP_COLORS, APP_FONT_SIZES } from '../configs/theme'
@@ -25,6 +27,7 @@ export const AppHeader = ({ title, hasBackButton }) => {
       backgroundColor={APP_COLORS.main}>
       <View
         style={([styles.center, styles.container], { flexDirection: 'row' })}>
+        {Platform.OS === 'android' && <StatusBar backgroundColor={APP_COLORS.main} />}
         {hasBackButton ? <TouchableOpacity
           onPress={() => navigation.goBack()}
           style={{
