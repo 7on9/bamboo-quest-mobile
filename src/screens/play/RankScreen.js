@@ -62,7 +62,7 @@ const Player = ({ idx, player }) => {
 
 const ranks = [Images.first, Images.second, Images.third]
 
-export const RankScreen = ({ socketState }) => {
+export const RankScreen = ({ socketState, resetStatus }) => {
   const navigation = useNavigation()
   let { players } = socketState
   players.sort((pA, pB) => pB.score - pA.score || pA.time - pB.time)
@@ -182,7 +182,10 @@ export const RankScreen = ({ socketState }) => {
           margin: APP_RATIO / 2,
         }}>
         <TouchableOpacity
-          // onPress={() => navigation.navigate('')}
+          onPress={() => {
+            // navigation.navigate('PlayScreen')
+            resetStatus()
+          }}
           style={[
             styles.center,
             styles.card,

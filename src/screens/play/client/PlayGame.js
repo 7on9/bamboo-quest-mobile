@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { View } from 'react-native'
 import { BaseScreen, Answer, Header, AppHeader, AppTextBold } from '../../../components'
 import { APP_COLORS, styles, APP_FONT_SIZES } from '../../../configs/theme'
@@ -11,7 +11,7 @@ import { APP_RATIO } from '../../../configs/appConstants'
  */
 export const PlayGameScreen = (props) => {
   const { socketState, answer } = props
-  const time = (new Date().getTime() / 1000.0).toFixed(2)
+  const [time, setTime] = (new Date().getTime() / 1000.0).toFixed(2)
   const [bgColor, setBgColor] = useState('#fff')
   const answers = [
     {
@@ -50,6 +50,25 @@ export const PlayGameScreen = (props) => {
     setBgColor(_answer.color)
     setAnswered(true)
   }
+
+  useEffect(() => {
+    console.log(time)
+    if (!time) {
+      setTime((new Date().getTime() / 1000.0).toFixed(2))
+    }
+    return () => {
+      if (!answered) {
+        console.log(new Date().getTime())
+        let ans = {
+          time: parseFloat((new Date().getTime() / 1000.0 - time).toFixed(2)),
+          idAnswer: -1,
+          username: socketState.game.username,
+        }
+        answer(socketState.game.idGame, socketState.idQuestion, ans)
+      }
+      setTime(null)
+    }
+  }, [])
 
   return (
     <BaseScreen header={() => <AppHeader title="Trả lời câu hỏi" />}>

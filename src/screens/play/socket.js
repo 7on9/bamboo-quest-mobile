@@ -197,6 +197,9 @@ export const useSocket = () => {
     },
     answer: (idGame, idQuestion, answer) => {
       socket.emit(GAME.ANSWER, idGame, idQuestion, answer)
+    },
+    resetStatus: () => {
+      setStore(initialState)
     }
   }
 

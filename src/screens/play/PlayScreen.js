@@ -28,9 +28,9 @@ export const PlayScreen = () => {
     scoreBoard,
   } = store
 
-  const { joinGame, answer, } = actions
+  const { joinGame, answer, resetStatus } = actions
   return scoreBoard ? (
-    <RankScreen socketState={store} />
+    <RankScreen socketState={store} resetStatus={resetStatus}/>
     ) : !inGame ? (
     <EntryScreen socket={socket} socketState={store} error={error} />
   ) : !started ? (
